@@ -47,4 +47,31 @@
 		border-top: 0.0625rem solid currentColor;
 		opacity: 0.25;
 	}
+
+	.next-chapter {
+		display: inline-block;
+		font-family: var(--font-heading);
+		font-weight: 500;
+		font-size: 0.75rem;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		color: var(--color-accent);
+		text-box: trim-both cap alphabetic;
+	}
+
+	#article-tabs button {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.5rem;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		cursor: pointer;
+		text-box: trim-both cap alphabetic;
+	}
+
+	#article-tabs button[aria-selected="true"] {
+		color: var(--color-accent);
+	}
 }

@@ -1,10 +1,13 @@
 // Loads built articles and renders accessible tabbed article content with slug-based URL routing.
+
+// DOM references and application state
 const tabsEl = document.getElementById("article-tabs");
 const panelEl = document.getElementById("article-panel");
 
 let articles = [];
 let activeIndex = 0;
 
+// URL routing and browser history
 function getSlugFromUrl() {
 	return window.location.hash.slice(1) || null;
 }
@@ -23,6 +26,7 @@ function updateUrl(slug, replace = false) {
 	}
 }
 
+// Tab and article panel rendering
 function renderTabs() {
 	tabsEl.innerHTML = articles
 		.map((article, index) => {
@@ -47,12 +51,19 @@ function renderTabs() {
 
 function renderPanel() {
 	const article = articles[activeIndex];
+	const nextArticle = articles[activeIndex + 1];
 
 	panelEl.id = `panel-${article.slug}`;
 	panelEl.setAttribute("aria-labelledby", `tab-${article.slug}`);
-	panelEl.innerHTML = article.html;
+
+	const nextChapterLink = nextArticle
+		? `<a class="next-chapter" href="#${nextArticle.slug}" data-next-index="${activeIndex + 1}">Next chapter</a>`
+		: "";
+
+	panelEl.innerHTML = article.html + nextChapterLink;
 }
 
+// Active tab state management
 function setActiveTab(index, { updateHistory = true, replaceHistory = false } = {}) {
 	activeIndex = index;
 	renderTabs();
@@ -74,11 +85,20 @@ function activateFromUrl({ updateHistory = false, replaceHistory = false } = {})
 	});
 }
 
+// Event handlers
 function handleTabClick(event) {
 	const button = event.target.closest("[role='tab']");
 	if (!button) return;
 
 	setActiveTab(Number(button.dataset.index));
+}
+
+function handleNextChapterClick(event) {
+	const link = event.target.closest(".next-chapter");
+	if (!link) return;
+
+	event.preventDefault();
+	setActiveTab(Number(link.dataset.nextIndex));
 }
 
 function handleTabKeydown(event) {
@@ -114,6 +134,7 @@ function handlePopState() {
 	}
 }
 
+// Initialization
 async function init() {
 	const response = await fetch("./dist/articles.json");
 
@@ -133,6 +154,7 @@ async function init() {
 
 	tabsEl.addEventListener("click", handleTabClick);
 	tabsEl.addEventListener("keydown", handleTabKeydown);
+	panelEl.addEventListener("click", handleNextChapterClick);
 	window.addEventListener("popstate", handlePopState);
 }
 
