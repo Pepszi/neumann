@@ -45,7 +45,18 @@
 	#article-panel hr {
 		border: 0;
 		border-top: 0.0625rem solid currentColor;
-		opacity: 0.25;
+	}
+
+	#article-panel ol {
+		list-style: decimal;
+	}
+
+	#article-panel ul {
+		list-style: disc;
+	}
+
+	#article-panel li + li {
+		margin-top: 0.625rem;
 	}
 
 	.next-chapter {

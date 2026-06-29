@@ -38,7 +38,7 @@ function renderTabs() {
 					role="tab"
 					id="tab-${article.slug}"
 					aria-selected="${isActive}"
-					aria-controls="panel-${article.slug}"
+					aria-controls="article-panel"
 					tabindex="${isActive ? "0" : "-1"}"
 					data-index="${index}"
 				>
@@ -53,7 +53,6 @@ function renderPanel() {
 	const article = articles[activeIndex];
 	const nextArticle = articles[activeIndex + 1];
 
-	panelEl.id = `panel-${article.slug}`;
 	panelEl.setAttribute("aria-labelledby", `tab-${article.slug}`);
 
 	const nextChapterLink = nextArticle
