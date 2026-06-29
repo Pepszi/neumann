@@ -11,18 +11,22 @@
 </head>
 <body>
 	<section>
-		<div class="mx-auto flex w-full max-w-6xl gap-8 px-6 py-12">
-			<div class="mx-auto w-full max-w-[48.125rem]">
-				<article id="article-panel" role="tabpanel" tabindex="0" aria-labelledby="" class="space-y-5"></article>
+		<div class="mx-auto flex w-full max-w-6xl justify-center gap-5 px-6 py-12">
+			<div class="w-full max-w-[37.625rem]">
+				<article id="article-panel" role="tabpanel" tabindex="0" aria-labelledby="" class="space-y-5 pt-5 pr-5 border-t border-r border-black"></article>
 			</div>
 
-			<nav
-				id="article-tabs"
-				role="tablist"
-				aria-label="Articles"
-				aria-orientation="vertical"
-				class="flex shrink-0 flex-col gap-2"
-			></nav>
+			<div class="flex shrink-0 flex-col gap-2">
+				<p class="font-sans text-[0.875rem] font-semibold leading-[1.1] tracking-normal">Read more chapters</p>
+
+				<nav
+					id="article-tabs"
+					role="tablist"
+					aria-label="Articles"
+					aria-orientation="vertical"
+					class="flex flex-col items-start gap-2 text-left"
+				></nav>
+			</div>
 		</div>
 	</section>
 

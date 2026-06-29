@@ -10,8 +10,12 @@ order: 1
 
 So what are the typical issues that make your CAD slow? There are two main reasons:
 
+---
+
 1. Computational geometry is inherently difficult, and computers struggle with boundary representation, the math under every CAD, CAM, and CAE.
 2. Advanced workflows demand infinite scalability.
+
+---
 
 Let’s elaborate on these.
 
