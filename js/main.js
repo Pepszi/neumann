@@ -1,9 +1,27 @@
-// Loads built articles and renders accessible tabbed article content.
+// Loads built articles and renders accessible tabbed article content with slug-based URL routing.
 const tabsEl = document.getElementById("article-tabs");
 const panelEl = document.getElementById("article-panel");
 
 let articles = [];
 let activeIndex = 0;
+
+function getSlugFromUrl() {
+	return window.location.hash.slice(1) || null;
+}
+
+function findIndexBySlug(slug) {
+	return articles.findIndex((article) => article.slug === slug);
+}
+
+function updateUrl(slug, replace = false) {
+	const url = `${window.location.pathname}${window.location.search}#${slug}`;
+
+	if (replace) {
+		history.replaceState({ slug }, "", url);
+	} else {
+		history.pushState({ slug }, "", url);
+	}
+}
 
 function renderTabs() {
 	tabsEl.innerHTML = articles
@@ -35,10 +53,25 @@ function renderPanel() {
 	panelEl.innerHTML = article.html;
 }
 
-function setActiveTab(index) {
+function setActiveTab(index, { updateHistory = true, replaceHistory = false } = {}) {
 	activeIndex = index;
 	renderTabs();
 	renderPanel();
+
+	if (updateHistory) {
+		updateUrl(articles[index].slug, replaceHistory);
+	}
+}
+
+function activateFromUrl({ updateHistory = false, replaceHistory = false } = {}) {
+	const slug = getSlugFromUrl();
+	const index = slug ? findIndexBySlug(slug) : 0;
+	const validIndex = index >= 0 ? index : 0;
+
+	setActiveTab(validIndex, {
+		updateHistory: updateHistory || !slug || index < 0,
+		replaceHistory: replaceHistory || !slug || index < 0,
+	});
 }
 
 function handleTabClick(event) {
@@ -72,6 +105,15 @@ function handleTabKeydown(event) {
 	tabsEl.querySelector(`[data-index="${nextIndex}"]`).focus();
 }
 
+function handlePopState() {
+	const slug = history.state?.slug ?? getSlugFromUrl();
+	const index = findIndexBySlug(slug);
+
+	if (index >= 0) {
+		setActiveTab(index, { updateHistory: false });
+	}
+}
+
 async function init() {
 	const response = await fetch("./dist/articles.json");
 
@@ -87,11 +129,11 @@ async function init() {
 		return;
 	}
 
-	renderTabs();
-	renderPanel();
+	activateFromUrl({ replaceHistory: true });
 
 	tabsEl.addEventListener("click", handleTabClick);
 	tabsEl.addEventListener("keydown", handleTabKeydown);
+	window.addEventListener("popstate", handlePopState);
 }
 
 init();
