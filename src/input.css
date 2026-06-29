@@ -9,9 +9,35 @@
 @layer base {
 	body {
 		font-family: var(--font-sans);
+		font-size: 0.875rem;
+		line-height: 1.5;
+		text-box: trim-both cap alphabetic;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
 		font-family: var(--font-heading);
+	}
+
+	h2 {
+		font-weight: 500;
+		font-size: 1.25rem;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		text-box: trim-both cap alphabetic;
+	}
+
+	h3 {
+		font-weight: 500;
+		font-size: 2rem;
+		line-height: 1;
+		letter-spacing: 0;
+		text-box: trim-both cap alphabetic;
+	}
+
+	#article-panel hr {
+		border: 0;
+		border-top: 0.0625rem solid currentColor;
+		opacity: 0.25;
 	}
 }
