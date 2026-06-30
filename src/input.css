@@ -36,6 +36,37 @@
 		text-box: trim-both cap alphabetic;
 	}
 
+	#article-panel h2 {
+		font-weight: 500;
+		font-size: 1.125rem;
+		line-height: 1;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		vertical-align: middle;
+		text-box: trim-both cap alphabetic;
+	}
+
+	@media (width >= 48rem) {
+		#article-panel h2 {
+			font-size: 1.25rem;
+		}
+	}
+
+	#article-panel h3 {
+		font-weight: 500;
+		font-size: 1.75rem;
+		line-height: 1;
+		letter-spacing: 0;
+		vertical-align: middle;
+		text-box: trim-both cap alphabetic;
+	}
+
+	@media (width >= 48rem) {
+		#article-panel h3 {
+			font-size: 2rem;
+		}
+	}
+
 	h4 {
 		font-weight: 500;
 		font-size: 1rem;
