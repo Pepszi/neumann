@@ -1,7 +1,7 @@
 ---
 title: Why AI hasn't transformed CAD
 slug: why-AI-hasnt-transformed-CAD
-order: 12
+order: 11
 ---
 
 ## Why AI hasn't transformed CAD

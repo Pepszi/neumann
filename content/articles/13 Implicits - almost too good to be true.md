@@ -1,7 +1,7 @@
 ---
 title: Implicits — almost too good to be true
 slug: implicits-almost-too-good-to-be-true
-order: 14
+order: 13
 ---
 
 ## Implicits — almost too good to be true

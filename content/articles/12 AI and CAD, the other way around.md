@@ -1,7 +1,7 @@
 ---
 title: AI and CAD, the other way around
 slug: AI-and-CAD-the-other-way-around
-order: 13
+order: 12
 ---
 
 ## AI and CAD, the other way around
