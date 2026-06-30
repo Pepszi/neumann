@@ -4,6 +4,8 @@
 const tabsEl = document.getElementById("article-tabs");
 const panelEl = document.getElementById("article-panel");
 const chapterLabelEl = document.getElementById("chapter-label");
+const chaptersToggleEl = document.getElementById("chapters-toggle");
+const chaptersPanelEl = document.getElementById("chapters-panel");
 
 let articles = [];
 let activeIndex = 0;
@@ -87,12 +89,42 @@ function activateFromUrl({ updateHistory = false, replaceHistory = false } = {})
 	});
 }
 
+// Mobile "Chapters" dropdown (reuses the desktop navigation, repositioned via CSS)
+function isChaptersOpen() {
+	return chaptersToggleEl.getAttribute("aria-expanded") === "true";
+}
+
+function setChaptersOpen(open) {
+	chaptersToggleEl.setAttribute("aria-expanded", String(open));
+	chaptersPanelEl.classList.toggle("max-lg:hidden", !open);
+	chaptersPanelEl.classList.toggle("max-lg:flex", open);
+}
+
+function handleChaptersToggle() {
+	setChaptersOpen(!isChaptersOpen());
+}
+
+function handleOutsideClick(event) {
+	if (!isChaptersOpen()) return;
+	if (chaptersPanelEl.contains(event.target) || chaptersToggleEl.contains(event.target)) return;
+
+	setChaptersOpen(false);
+}
+
+function handleEscapeKey(event) {
+	if (event.key !== "Escape" || !isChaptersOpen()) return;
+
+	setChaptersOpen(false);
+	chaptersToggleEl.focus();
+}
+
 // Event handlers
 function handleTabClick(event) {
 	const button = event.target.closest("[role='tab']");
 	if (!button) return;
 
 	setActiveTab(Number(button.dataset.index));
+	setChaptersOpen(false);
 }
 
 function scrollToArticleSection() {
@@ -163,6 +195,9 @@ async function init() {
 	tabsEl.addEventListener("click", handleTabClick);
 	tabsEl.addEventListener("keydown", handleTabKeydown);
 	panelEl.addEventListener("click", handleNextChapterClick);
+	chaptersToggleEl.addEventListener("click", handleChaptersToggle);
+	document.addEventListener("click", handleOutsideClick);
+	document.addEventListener("keydown", handleEscapeKey);
 	window.addEventListener("popstate", handlePopState);
 }
 
