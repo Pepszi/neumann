@@ -3,6 +3,7 @@
 // DOM references and application state
 const tabsEl = document.getElementById("article-tabs");
 const panelEl = document.getElementById("article-panel");
+const chapterLabelEl = document.getElementById("chapter-label");
 
 let articles = [];
 let activeIndex = 0;
@@ -54,6 +55,7 @@ function renderPanel() {
 	const nextArticle = articles[activeIndex + 1];
 
 	panelEl.setAttribute("aria-labelledby", `tab-${article.slug}`);
+	chapterLabelEl.textContent = `Chapter ${article.order}`;
 
 	const nextChapterLink = nextArticle
 		? `<a class="next-chapter" href="#${nextArticle.slug}" data-next-index="${activeIndex + 1}">Next chapter</a>`
