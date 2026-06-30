@@ -11,6 +11,43 @@
 </head>
 <body>
 	<section class="relative">
+		<div class="mx-auto flex w-full max-w-6xl justify-center gap-5 px-6 pt-12 pl-3 md:pl-6">
+			<!-- Invisible spacer mirroring the chapter-label column so the banner aligns with the article column -->
+			<div aria-hidden="true" class="invisible self-start border-t border-l border-black p-5">
+				<span class="block font-heading text-[1.25rem] font-medium uppercase leading-none tracking-[0.2em] [writing-mode:vertical-rl] rotate-180">Chapter 1</span>
+			</div>
+
+			<div class="w-full max-w-[37.625rem] border-t border-r border-black pt-5 pr-10">
+				<p class="font-heading text-[1rem] font-medium uppercase leading-none tracking-[0.2em]">Backed by</p>
+
+				<div class="mt-5 flex justify-between gap-5">
+					
+					<div class="flex max-w-[7.5rem] flex-col items-start">
+						<img src="./assets/images/Bob McGrew.webp" srcset="./assets/images/Bob McGrew.webp 2x" alt="Bob McGrew" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Bob McGrew</p>
+						<p class="italic [text-box:trim-both_cap_alphabetic]">Former Chief Research Officer at OpenAI</p>
+					</div>
+
+					<div class="flex max-w-[7.5rem] flex-col items-start">
+						<img src="./assets/images/Ola Rollen.webp" srcset="./assets/images/Ola Rollen.webp 2x" alt="Ola Rollén" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Ola Rollén</p>
+						<p class="italic [text-box:trim-both_cap_alphabetic]">Entrepreneur and former CEO of Hexagon</p>
+					</div>
+
+					<div class="flex max-w-[7.5rem] flex-col items-start">
+						<img src="./assets/images/Amar Hanspal.webp" srcset="./assets/images/Amar Hanspal.webp 2x" alt="Amar Hanspal" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Amar Hanspal</p>
+						<p class="italic [text-box:trim-both_cap_alphabetic]">Co-founder and CEO of Motif Systems, Inc</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Invisible spacer mirroring the chapters column; width is synced via JS so the banner stays aligned at lg+ -->
+			<div id="backed-by-spacer" aria-hidden="true" class="invisible max-lg:hidden lg:block lg:shrink-0"></div>
+		</div>
+	</section>
+
+	<section class="relative">
 		<img src="./assets/images/Neumann-logotype.svg" alt="Neumann logo" class="absolute right-0 top-[1.25rem] w-[0.71875rem] md:w-[1.4375rem]">
 
 		<div class="relative mx-auto flex w-full max-w-6xl justify-center gap-5 px-6 py-12 pl-3 md:pl-6">

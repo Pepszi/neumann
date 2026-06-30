@@ -6,6 +6,7 @@ const panelEl = document.getElementById("article-panel");
 const chapterLabelEl = document.getElementById("chapter-label");
 const chaptersToggleEl = document.getElementById("chapters-toggle");
 const chaptersPanelEl = document.getElementById("chapters-panel");
+const backedBySpacerEl = document.getElementById("backed-by-spacer");
 
 let articles = [];
 let activeIndex = 0;
@@ -67,11 +68,21 @@ function renderPanel() {
 	panelEl.innerHTML = article.html + nextChapterLink;
 }
 
+// Keep the "Backed by" banner aligned with the article column by mirroring the
+// chapters column width onto an invisible spacer (only while that column is in flow at lg+).
+function syncBackedBySpacer() {
+	if (!backedBySpacerEl) return;
+
+	const chaptersInFlow = window.matchMedia("(min-width: 64rem)").matches;
+	backedBySpacerEl.style.width = chaptersInFlow ? `${chaptersPanelEl.offsetWidth / 16}rem` : "";
+}
+
 // Active tab state management
 function setActiveTab(index, { updateHistory = true, replaceHistory = false } = {}) {
 	activeIndex = index;
 	renderTabs();
 	renderPanel();
+	syncBackedBySpacer();
 
 	if (updateHistory) {
 		updateUrl(articles[index].slug, replaceHistory);
@@ -125,6 +136,7 @@ function handleTabClick(event) {
 
 	setActiveTab(Number(button.dataset.index));
 	setChaptersOpen(false);
+	scrollToArticleSection();
 }
 
 function scrollToArticleSection() {
@@ -199,6 +211,7 @@ async function init() {
 	document.addEventListener("click", handleOutsideClick);
 	document.addEventListener("keydown", handleEscapeKey);
 	window.addEventListener("popstate", handlePopState);
+	window.addEventListener("resize", syncBackedBySpacer);
 }
 
 init();
