@@ -27,7 +27,7 @@ function updateUrl(slug, replace = false) {
 	}
 }
 
-// Tab and article panel rendering
+// Tab navigation rendering
 function renderTabs() {
 	tabsEl.innerHTML = articles
 		.map((article, index) => {
@@ -50,6 +50,7 @@ function renderTabs() {
 		.join("");
 }
 
+// Article panel rendering
 function renderPanel() {
 	const article = articles[activeIndex];
 	const nextArticle = articles[activeIndex + 1];
