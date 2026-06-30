@@ -1,43 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Neumann</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+		rel="stylesheet">
 	<link rel="stylesheet" href="./dist/output.css">
 </head>
+
 <body>
 	<section class="relative">
 		<div class="mx-auto flex w-full max-w-6xl justify-center gap-5 px-6 pt-12 pl-3 md:pl-6">
 			<!-- Invisible spacer mirroring the chapter-label column so the banner aligns with the article column -->
-			<div aria-hidden="true" class="invisible self-start border-t border-l border-black p-5">
-				<span class="block font-heading text-[1.25rem] font-medium uppercase leading-none tracking-[0.2em] [writing-mode:vertical-rl] rotate-180">Chapter 1</span>
+			<div aria-hidden="true" class="max-sm:hidden sm:invisible self-start border-t border-l border-black p-5">
+				<span
+					class="block font-heading text-[1.25rem] font-medium uppercase leading-none tracking-[0.2em] [writing-mode:vertical-rl] rotate-180">Chapter
+					1</span>
 			</div>
 
-			<div class="w-full max-w-[37.625rem] border-t border-r border-black pt-5 pr-10">
+			<div class="w-full max-w-[37.625rem] border-t border-r border-black pt-5 pr-5 sm:pr-10">
 				<p class="font-heading text-[1rem] font-medium uppercase leading-none tracking-[0.2em]">Backed by</p>
 
-				<div class="mt-5 flex justify-between gap-5">
-					
+				<div class="mt-5 flex justify-start gap-2 sm:justify-between sm:gap-5">
+
 					<div class="flex max-w-[7.5rem] flex-col items-start">
-						<img src="./assets/images/Bob McGrew.webp" srcset="./assets/images/Bob McGrew.webp 2x" alt="Bob McGrew" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<img src="./assets/images/Bob McGrew.webp" srcset="./assets/images/Bob McGrew.webp 2x"
+							alt="Bob McGrew" width="120" height="120"
+							class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
 						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Bob McGrew</p>
-						<p class="italic [text-box:trim-both_cap_alphabetic]">Former Chief Research Officer at OpenAI</p>
+						<p class="italic [text-box:trim-both_cap_alphabetic]">Former Chief Research Officer at OpenAI
+						</p>
 					</div>
 
 					<div class="flex max-w-[7.5rem] flex-col items-start">
-						<img src="./assets/images/Ola Rollen.webp" srcset="./assets/images/Ola Rollen.webp 2x" alt="Ola Rollén" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<img src="./assets/images/Ola Rollen.webp" srcset="./assets/images/Ola Rollen.webp 2x"
+							alt="Ola Rollén" width="120" height="120"
+							class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
 						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Ola Rollén</p>
 						<p class="italic [text-box:trim-both_cap_alphabetic]">Entrepreneur and former CEO of Hexagon</p>
 					</div>
 
 					<div class="flex max-w-[7.5rem] flex-col items-start">
-						<img src="./assets/images/Amar Hanspal.webp" srcset="./assets/images/Amar Hanspal.webp 2x" alt="Amar Hanspal" width="120" height="120" class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
+						<img src="./assets/images/Amar Hanspal.webp" srcset="./assets/images/Amar Hanspal.webp 2x"
+							alt="Amar Hanspal" width="120" height="120"
+							class="mb-[1.125rem] aspect-square w-full object-cover grayscale">
 						<p class="mb-[0.5rem] font-heading text-[1rem] font-medium leading-none">Amar Hanspal</p>
-						<p class="italic [text-box:trim-both_cap_alphabetic]">Co-founder and CEO of Motif Systems, Inc</p>
+						<p class="italic [text-box:trim-both_cap_alphabetic]">Co-founder and CEO of Motif Systems, Inc
+						</p>
 					</div>
 				</div>
 			</div>
@@ -48,44 +62,38 @@
 	</section>
 
 	<section class="relative">
-		<img src="./assets/images/Neumann-logotype.svg" alt="Neumann logo" class="absolute right-0 top-[1.25rem] w-[0.71875rem] md:w-[1.4375rem]">
+		<img src="./assets/images/Neumann-logotype.svg" alt="Neumann logo"
+			class="absolute right-0 top-[1.25rem] w-[0.71875rem] md:w-[1.4375rem]">
 
 		<div class="relative mx-auto flex w-full max-w-6xl justify-center gap-5 px-6 py-12 pl-3 md:pl-6">
 			<div class="sticky top-6 self-start border-t border-l border-black p-5">
-				<span id="chapter-label" class="block font-heading text-[1.25rem] font-medium uppercase leading-none tracking-[0.2em] align-middle text-accent [writing-mode:vertical-rl] rotate-180 [text-box:trim-both_cap_alphabetic]">Chapter 1</span>
+				<span id="chapter-label"
+					class="block font-heading text-[1.25rem] font-medium uppercase leading-none tracking-[0.2em] align-middle text-accent [writing-mode:vertical-rl] rotate-180 [text-box:trim-both_cap_alphabetic]">Chapter
+					1</span>
 			</div>
 
 			<div class="relative w-full max-w-[37.625rem] lg:contents">
-				<button
-					id="chapters-toggle"
-					type="button"
-					aria-haspopup="true"
-					aria-expanded="false"
+				<button id="chapters-toggle" type="button" aria-haspopup="true" aria-expanded="false"
 					aria-controls="chapters-panel"
-					class="absolute right-0 z-20 -translate-y-[calc(100%+0.5rem)] cursor-pointer border border-black px-3 py-1 font-heading text-[0.625rem] font-semibold uppercase leading-none tracking-[0.2em] text-black [text-box:trim-both_cap_alphabetic] lg:hidden"
-				>Chapters</button>
+					class="absolute right-0 z-20 -translate-y-[calc(100%+0.5rem)] cursor-pointer border border-black px-3 py-1 font-heading text-[0.625rem] font-semibold uppercase leading-none tracking-[0.2em] text-black [text-box:trim-both_cap_alphabetic] lg:hidden">Chapters</button>
 
-				<article id="article-panel" role="tabpanel" tabindex="0" aria-labelledby="" class="w-full max-w-[37.625rem] space-y-5 border-t border-r border-black pt-5 pr-5"></article>
+				<article id="article-panel" role="tabpanel" tabindex="0" aria-labelledby=""
+					class="w-full max-w-[37.625rem] space-y-5 border-t border-r border-black pt-5 pr-5"></article>
 
-				<div
-					id="chapters-panel"
-					class="max-lg:absolute max-lg:right-0 max-lg:top-0 max-lg:z-30 max-lg:hidden max-lg:w-max max-lg:flex-col max-lg:gap-6 max-lg:border max-lg:border-black max-lg:bg-white max-lg:p-5 lg:sticky lg:top-6 lg:flex lg:shrink-0 lg:flex-col lg:gap-6 lg:self-start"
-				>
-					<p class="font-sans text-[0.875rem] font-semibold leading-[1.1] tracking-normal max-lg:hidden">Read more<br>chapters</p>
+				<div id="chapters-panel"
+					class="max-lg:absolute max-lg:right-0 max-lg:top-0 max-lg:z-30 max-lg:hidden max-lg:w-max max-lg:flex-col max-lg:gap-6 max-lg:border max-lg:border-black max-lg:bg-white max-lg:p-5 lg:sticky lg:top-6 lg:flex lg:shrink-0 lg:flex-col lg:gap-6 lg:self-start">
+					<p class="font-sans text-[0.875rem] font-semibold leading-[1.1] tracking-normal max-lg:hidden">Read
+						more<br>chapters</p>
 
-					<nav
-						id="article-tabs"
-						role="tablist"
-						aria-label="Articles"
-						aria-orientation="vertical"
-						class="flex flex-col items-start gap-3 text-left"
-					></nav>
+					<nav id="article-tabs" role="tablist" aria-label="Articles" aria-orientation="vertical"
+						class="flex flex-col items-start gap-3 text-left"></nav>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="relative min-h-[90svh] bg-[url('../assets/images/footer-bg.webp')] bg-cover bg-center px-6 pt-[7.125rem] pb-[14vw] text-center text-white">
+	<section
+		class="relative min-h-[90svh] bg-[url('../assets/images/footer-bg.webp')] bg-cover bg-center px-6 pt-[7.125rem] pb-[14vw] text-center text-white">
 		<h2 class="font-semibold text-[3rem] tracking-normal">Not convinced yet?</h2>
 
 		<div class="mx-auto mt-[3rem] max-w-[48.125rem] bg-white px-[2rem] py-[1.5rem] text-black md:px-[6rem]">
@@ -106,4 +114,5 @@
 
 	<script src="./js/main.js" defer></script>
 </body>
+
 </html>
