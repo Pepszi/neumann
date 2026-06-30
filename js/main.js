@@ -95,12 +95,18 @@ function handleTabClick(event) {
 	setActiveTab(Number(button.dataset.index));
 }
 
+function scrollToArticleSection() {
+	const section = panelEl.closest("section");
+	(section ?? panelEl).scrollIntoView({ block: "start" });
+}
+
 function handleNextChapterClick(event) {
 	const link = event.target.closest(".next-chapter");
 	if (!link) return;
 
 	event.preventDefault();
 	setActiveTab(Number(link.dataset.nextIndex));
+	scrollToArticleSection();
 }
 
 function handleTabKeydown(event) {
