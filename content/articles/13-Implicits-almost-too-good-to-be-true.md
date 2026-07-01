@@ -69,7 +69,7 @@ What will a world look like if someone cracks this problem?
 - parametric parts with 10,000 features updating real time when parameters change
 - million part assemblies opening up in an instant on any computer
 - no geometry operations will fail ever again. No non-manifold body errors, no failed booleans or shells. Everything will just work.
-- real time simulations using monte carlo methods
+- real time simulations using physics AI models and SDF based physics solvers, like Monte Carlo or shifted boundary methods
 - real time ray traced visualization of large geometries
 - CAD data shrinks by 99%
 
