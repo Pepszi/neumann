@@ -105,7 +105,10 @@ function buildAccordion() {
 					data-index="${index}"
 				>
 					<span class="article-chapter">Chapter ${article.order}</span>
-					<span class="article-title">${article.title}</span>
+					<div class="article-collapsed-copy">
+						<span class="article-title">${article.title}</span>
+						${article.subtitle ? `<p class="article-subtitle">${article.subtitle}</p>` : ""}
+					</div>
 				</button>
 				<div
 					id="article-panel-${article.slug}"

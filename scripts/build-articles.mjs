@@ -16,12 +16,16 @@ const articles = await Promise.all(
 	files.map(async (file) => {
 		const source = await readFile(join(articlesDir, file), "utf8");
 		const { data, content } = matter(source);
+		const html = marked.parse(content);
+		const subtitleMatch = html.match(/<h3>([\s\S]*?)<\/h3>/i);
+		const subtitle = subtitleMatch ? subtitleMatch[1] : "";
 
 		return {
 			title: data.title,
 			slug: data.slug,
 			order: data.order,
-			html: marked.parse(content),
+			subtitle,
+			html,
 		};
 	})
 );

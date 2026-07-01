@@ -104,12 +104,22 @@
 
 	.article-collapsed {
 		display: grid;
-		grid-template-columns: 6.75rem 1fr;
-		column-gap: 0.75rem;
-		align-items: center;
+		grid-template-columns: 4rem 1fr;
+		column-gap: 1.25rem;
+		align-items: start;
+	}
+
+	.article-collapsed-copy {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		min-width: 0;
+	}
+
+	.article-collapsed .article-chapter,
+	.article-collapsed .article-title {
 		font-family: var(--font-heading);
 		font-weight: 500;
-		font-size: 0.75rem;
 		line-height: 1;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
@@ -118,7 +128,24 @@
 	}
 
 	.article-collapsed .article-chapter {
+		font-size: 0.5rem;
 		white-space: nowrap;
+	}
+
+	.article-collapsed .article-title {
+		font-size: 1rem;
+	}
+
+	.article-collapsed .article-subtitle {
+		margin-top: 0.75rem;
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: 0.875rem;
+		line-height: 1;
+		letter-spacing: 0;
+		vertical-align: middle;
+		text-box: trim-both cap alphabetic;
+		text-transform: none;
 	}
 
 	.chapter-label-vertical {
@@ -147,12 +174,6 @@
 	.article-panel-inner {
 		overflow: hidden;
 		transform-origin: top center;
-	}
-
-	@media (width >= 48rem) {
-		.article-collapsed {
-			grid-template-columns: 6.25rem 1fr;
-		}
 	}
 
 	/* Top/left/bottom padding on the untransformed wrapper; right spacing uses a
