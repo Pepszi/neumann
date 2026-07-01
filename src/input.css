@@ -149,3 +149,264 @@
 		}
 	}
 }
+
+/* Scroll-driven WebGL hero */
+@layer components {
+	:root {
+		--hero-fg: #fff;
+		--hero-bg: #000;
+		--hero-accent: #ff4365;
+		--hero-header: 3.75rem;
+		--sticky-below-header: calc(env(safe-area-inset-top, 0px) + var(--hero-header) + 1.5rem);
+	}
+
+	body {
+		margin: 0;
+		background: var(--hero-bg);
+		overflow-x: hidden;
+		overscroll-behavior-y: none;
+	}
+
+	#scroller > div {
+		height: 100vh;
+	}
+
+	@media (max-width: 53.6875rem), (orientation: portrait) {
+		#scroller,
+		#scroller > div {
+			touch-action: none;
+		}
+	}
+
+	canvas#gl {
+		position: fixed;
+		inset: 0;
+		width: 100vw;
+		height: 100vh;
+		display: block;
+		z-index: 8;
+		pointer-events: none;
+	}
+
+	#page {
+		position: relative;
+		z-index: 2;
+		background: #fff;
+	}
+
+	#topfill {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: var(--hero-header);
+		background: #000;
+		z-index: 6;
+		pointer-events: none;
+	}
+
+	#hrule {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: calc(env(safe-area-inset-top, 0) + var(--hero-header));
+		height: 0.0625rem;
+		background: #1c1c1f;
+		z-index: 9;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#wordmark {
+		position: fixed;
+		left: 50%;
+		top: 0;
+		transform: translateX(-50%);
+		width: 70.18vh;
+		user-select: none;
+		pointer-events: none;
+		z-index: 9;
+		will-change: transform;
+	}
+
+	#wordmark svg {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	#wordmark path {
+		fill: var(--hero-fg);
+	}
+
+	#copy {
+		position: fixed;
+		right: 6vw;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 36vw;
+		max-width: 33.75rem;
+		z-index: 9;
+		pointer-events: none;
+		display: grid;
+	}
+
+	#copy .stagecopy {
+		grid-area: 1 / 1;
+		opacity: 0;
+	}
+
+	#copy h2 {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-size: clamp(1.75rem, 3.4vw, 3.25rem);
+		line-height: 1.05;
+		letter-spacing: 0.005em;
+		margin: 0 0 1.125rem;
+		color: var(--hero-fg);
+		text-transform: none;
+	}
+
+	#copy p {
+		font-family: var(--font-sans);
+		font-weight: 400;
+		font-size: clamp(0.9375rem, 1.15vw, 1.1875rem);
+		line-height: 1.6;
+		margin: 0;
+		color: #cfcfcf;
+		max-width: 32ch;
+	}
+
+	@media (max-width: 53.6875rem), (orientation: portrait) {
+		#copy {
+			right: auto;
+			left: 0;
+			top: 0;
+			transform: none;
+			width: 100%;
+			max-width: none;
+			padding: 8vh 8vw 0;
+		}
+
+		#copy h2 {
+			font-size: clamp(1.875rem, 9vw, 3.25rem);
+			margin: 0 0 0.75rem;
+		}
+
+		#copy p {
+			font-size: clamp(0.9375rem, 4.2vw, 1.25rem);
+			max-width: none;
+		}
+	}
+
+	#hero {
+		position: fixed;
+		left: 52%;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 34vw;
+		max-width: 30rem;
+		z-index: 9;
+		pointer-events: none;
+		opacity: 0;
+	}
+
+	#hero h1 {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-size: clamp(1.625rem, 2.7vw, 2.625rem);
+		line-height: 1.14;
+		letter-spacing: 0.005em;
+		margin: 0 0 1rem;
+		color: var(--hero-fg);
+		text-transform: none;
+	}
+
+	#hero p {
+		font-family: var(--font-sans);
+		font-weight: 600;
+		font-size: clamp(1rem, 1.3vw, 1.3125rem);
+		line-height: 1.5;
+		margin: 0;
+		color: var(--hero-accent);
+	}
+
+	@media (max-width: 53.6875rem), (orientation: portrait) {
+		#hero {
+			left: 0;
+			right: auto;
+			top: auto;
+			bottom: 8vh;
+			transform: none;
+			width: 100%;
+			max-width: none;
+			padding: 0 9vw;
+			text-align: center;
+		}
+
+		#hero h1 {
+			font-size: clamp(1.5rem, 6.5vw, 2.375rem);
+		}
+
+		#hero p {
+			font-size: clamp(1rem, 4.4vw, 1.375rem);
+		}
+	}
+
+	#scrollhint {
+		position: fixed;
+		left: 50%;
+		bottom: calc(env(safe-area-inset-bottom, 0) + 1.625rem);
+		transform: translateX(-50%);
+		z-index: 9;
+		opacity: 0;
+		pointer-events: none;
+		will-change: opacity;
+	}
+
+	#scrollhint svg {
+		display: block;
+		width: 1.875rem;
+		height: auto;
+		animation: scrollbob 1.8s ease-in-out infinite;
+	}
+
+	#scrollhint path {
+		fill: none;
+		stroke: var(--hero-fg);
+		stroke-width: 0.125rem;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	@keyframes scrollbob {
+		0% {
+			transform: translateY(-0.1875rem);
+			opacity: 0.3;
+		}
+
+		50% {
+			transform: translateY(0.3125rem);
+			opacity: 1;
+		}
+
+		100% {
+			transform: translateY(-0.1875rem);
+			opacity: 0.3;
+		}
+	}
+
+	.sticky-below-header {
+		top: var(--sticky-below-header);
+	}
+
+	@media (width >= 64rem) {
+		.lg-sticky-below-header {
+			top: var(--sticky-below-header);
+		}
+	}
+
+	.article-section {
+		scroll-margin-top: var(--sticky-below-header);
+	}
+}

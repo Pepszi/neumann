@@ -3,7 +3,8 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="theme-color" content="#000000">
 	<title>Neumann</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +15,20 @@
 </head>
 
 <body>
-	<section class="sticky top-0 z-0 bg-white">
+	<div id="topfill"></div>
+	<canvas id="gl"></canvas>
+	<div id="scroller">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+
+	<main id="page">
+	<section class="bg-white py-16">
 		<div class="mx-auto flex w-full max-w-6xl justify-center gap-5 px-5 pt-12 md:px-6">
 			<!-- Invisible spacer mirroring the chapter-label column so the banner aligns with the article column -->
 			<div aria-hidden="true"
@@ -78,12 +92,12 @@
 		</div>
 	</section>
 
-	<section class="relative z-10 bg-white">
+	<section class="article-section relative z-10 bg-white">
 		<img src="./assets/images/Neumann-logotype.svg" alt="Neumann logo"
 			class="absolute right-0 top-[1.25rem] w-[0.71875rem] md:w-[1.4375rem]">
 
 		<div class="relative mx-auto flex w-full max-w-6xl justify-center gap-5 px-5 py-12 md:px-6">
-			<div class="chapter-label-col sticky top-6 shrink-0 self-start border-t border-l border-black">
+			<div class="chapter-label-col sticky sticky-below-header shrink-0 self-start border-t border-l border-black">
 				<div class="chapter-label-inner">
 					<span id="chapter-label"
 						class="block font-heading text-[0.75rem] font-medium uppercase leading-none tracking-[0.2em] text-accent [writing-mode:vertical-rl] rotate-180 md:text-[1.25rem]">Chapter
@@ -102,7 +116,7 @@
 				</article>
 
 				<div id="chapters-panel"
-					class="max-lg:absolute max-lg:right-0 max-lg:top-0 max-lg:z-30 max-lg:hidden max-lg:w-max max-lg:flex-col max-lg:gap-6 max-lg:border max-lg:border-black max-lg:bg-white max-lg:p-5 lg:sticky lg:top-6 lg:flex lg:shrink-0 lg:flex-col lg:gap-6 lg:self-start">
+					class="max-lg:absolute max-lg:right-0 max-lg:top-0 max-lg:z-30 max-lg:hidden max-lg:w-max max-lg:flex-col max-lg:gap-6 max-lg:border max-lg:border-black max-lg:bg-white max-lg:p-5 lg:sticky lg-sticky-below-header lg:flex lg:shrink-0 lg:flex-col lg:gap-6 lg:self-start">
 					<p class="font-sans text-[0.875rem] font-semibold leading-[1.1] tracking-normal max-lg:hidden">Read
 						more<br>chapters</p>
 
@@ -130,7 +144,299 @@
 
 		<img src="./assets/images/footer-shape.svg" alt="" aria-hidden="true" class="absolute bottom-0 left-0 w-full">
 	</section>
+	</main>
 
+	<div id="hrule"></div>
+
+	<div id="wordmark" aria-label="neumann">
+		<svg viewBox="0 0 1835 200" xmlns="http://www.w3.org/2000/svg" role="img">
+			<path d="M669.145 156.371H559.855V0H512V200L717 199.743V0H669.145V156.371Z"/>
+			<path d="M0 0.128826V200H47.8549V43.6293H157.145V200H205V0L0 0.128826Z"/>
+			<path d="M1630 0.128826V200H1677.76V43.6293H1787.11V200H1835V0L1630 0.128826Z"/>
+			<path d="M255.13 199.871H449.671V156.141H303.019V120.772H462V0H255V200L255.13 199.871ZM303.019 40.3858H414.111V81.4148H303.019V40.3858Z"/>
+			<path d="M763 200H810.947V44.4587H901.915V200H949.473V44.4587H1040.44V200H1088V0H763V200Z"/>
+			<path d="M1378 0.128826V200H1425.85V43.6293H1535.15V200H1583V0L1378 0.128826Z"/>
+			<path d="M1137.27 0.128743V43.8586H1283.21V79.2283H1125V200H1331V0H1137.4L1137.27 0.128743ZM1283.08 159.614H1172.53V118.585H1283.08V159.614Z"/>
+		</svg>
+	</div>
+
+	<div id="scrollhint" aria-hidden="true">
+		<svg viewBox="0 0 28 16" xmlns="http://www.w3.org/2000/svg"><path d="M2 3 L14 13 L26 3"/></svg>
+	</div>
+
+	<div id="copy">
+		<div class="stagecopy" data-i="1">
+			<h2>1945</h2>
+			<p>John von Neumann invents the stored-program computer architecture that still bears his name.</p>
+		</div>
+		<div class="stagecopy" data-i="2">
+			<h2>1974</h2>
+			<p>Dr. Ian C. Braid pioneers boundary representation for solid modeling, the mathematical foundation of every CAD, CAM and CAE system today.</p>
+		</div>
+		<div class="stagecopy" data-i="3">
+			<h2>1985</h2>
+			<p>Samuel Geisberg starts Parametric Technology Corporation, the first commercially successful parametric CAD company.</p>
+		</div>
+		<div class="stagecopy" data-i="4">
+			<h2>1988</h2>
+			<p>Shape Data, founded by Dr. Charles Lang, Dr. Ian C. Braid, Dr. Alan Grayer, and Dr. Peter Veenman, launches Parasolid, the geometry engine behind the most popular engineering tools today.</p>
+		</div>
+		<div class="stagecopy" data-i="5">
+			<h2>1993</h2>
+			<p>Jon Hirschtick founds SOLIDWORKS, putting 3D CAD on the desk of every engineer.</p>
+		</div>
+	</div>
+
+	<div id="hero">
+		<h1>Neumann. Built for the problems CAD can't solve.</h1>
+		<p>Coming fall 2026.</p>
+	</div>
+
+	<script id="frag" type="x-shader/x-fragment">#version 300 es
+	precision highp float;
+	out vec4 fragColor;
+	
+	uniform vec2  uRes;
+	uniform float uTCam, uTBrep, uTExt, uTSlice;   // scroll-driven phase weights (0..1)
+	uniform float uSliceAng;              // slice-plane rotation angle (radians), grows with scroll
+	uniform float uExtH;                  // current extrusion half-height (model units, slab [-uExtH, +uExtH])
+	uniform float uLeg, uBar, uHalfH;     // shape params
+	uniform float uSpacing, uFade;        // ground field params
+	uniform float uCamDist, uFovTan;
+	uniform float uOrthoBase;             // visible world-height at the opening view (aspect-aware)
+	uniform vec2  uShift;                 // screen-space offset of the scene (uv units)
+	uniform float uViewScale;             // zoom-out factor (>1 shrinks the scene)
+	uniform float uTint;                  // 0 = white logo, 1 = accent-tinted logo
+	uniform float uHero;                  // 0 = stage field (faded), 1 = hero field (3 crisp rings)
+	uniform float uHeroSpacing;           // ring spacing at the hero (tuned so ring 3 merges at center)
+	uniform float uDpr;                   // device pixels per CSS pixel (keeps line width constant in CSS px)
+	uniform float uDock;                  // 0 = hero field, 1 = docked header mark (rings removed, just the "n")
+	uniform float uHeader;                // header strip height in CSS px (canvas below it fades transparent)
+	uniform float uTime;
+	
+	const vec3 ACCENT = vec3(1.0, 0.263, 0.396);   // #FF4365
+	
+	// MARK: shape
+	
+	float boxC(vec2 p, vec2 b){ vec2 d = abs(p) - b; return max(d.x, d.y); }   // chebyshev (square)
+	
+	float sdN2(vec2 p){
+	  float hh  = uHalfH;
+	  float nbW = 1.0 - uLeg;                 // inner edge of the legs / notch half-width
+	  float nt  = hh - uBar;                  // underside of the top bar
+	  // "n" = left leg U right leg U top bar -- min of box distances is the *exact* exterior chebyshev
+	  // distance (the CSG subtraction max(outer,-notch) dips below the notch and breaks the seam)
+	  float legHX = 0.5 * (1.0 - nbW);        // leg half-width
+	  float legCX = 0.5 * (1.0 + nbW);        // leg center |x|
+	  float L = boxC(p - vec2(-legCX, 0.0), vec2(legHX, hh));
+	  float R = boxC(p - vec2( legCX, 0.0), vec2(legHX, hh));
+	  // top bar spans the full width so it OVERLAPS the legs (no zero-distance abutment seam)
+	  float T = boxC(p - vec2(0.0, 0.5 * (nt + hh)), vec2(1.0, 0.5 * (hh - nt)));
+	  return min(min(L, R), T);
+	}
+	
+	// extruded body: slab symmetric about z = 0, half-height H.
+	// Chebyshev (max-norm) combine keeps sharp square corners in 3D (no rounding on slices).
+	float sdSlab(vec3 p, float H){
+	  float d2 = sdN2(p.xy);
+	  float dz = abs(p.z) - H;
+	  return max(d2, dz);
+	}
+	float sdSolid(vec3 p){ return sdSlab(p, uExtH); }
+	// distance field used for the contour slice — floored so the flat cross-section never degenerates
+	float sdField(vec3 p){ return sdSlab(p, max(uExtH, 0.02)); }
+	
+	vec3 calcNormal(vec3 p){
+	  vec2 e = vec2(0.0012, 0.0);
+	  return normalize(vec3(
+	    sdSolid(p + e.xyy) - sdSolid(p - e.xyy),
+	    sdSolid(p + e.yxy) - sdSolid(p - e.yxy),
+	    sdSolid(p + e.yyx) - sdSolid(p - e.yyx)));
+	}
+	
+	vec2 boxRay(vec3 ro, vec3 rd, vec3 bmin, vec3 bmax){
+	  vec3 t1 = (bmin - ro) / rd, t2 = (bmax - ro) / rd;
+	  vec3 tmin = min(t1, t2), tmax = max(t1, t2);
+	  return vec2(max(max(tmin.x, tmin.y), tmin.z), min(min(tmax.x, tmax.y), tmax.z));
+	}
+	
+	float march(vec3 ro, vec3 rd){
+	  vec3 bmin = vec3(-1.04, -uHalfH - 0.04, -uExtH - 0.04);
+	  vec3 bmax = vec3( 1.04,  uHalfH + 0.04,  uExtH + 0.04);
+	  vec2 tb = boxRay(ro, rd, bmin, bmax);
+	  if (tb.y < max(tb.x, 0.0)) return -1.0;
+	  float t = max(tb.x, 0.0);
+	  for (int i = 0; i < 80; i++){
+	    if (t > tb.y) break;
+	    float d = sdSolid(ro + rd * t);
+	    if (d < 0.0008) return t;
+	    t += d;
+	  }
+	  return -1.0;
+	}
+	
+	// MARK: distance field on a slice plane
+	
+	// returns vec2(intensity, coverageAlpha) for the field contours at 3D point p
+	vec2 shadeField(vec3 p){
+	  float d = sdField(p);                 // 3D signed distance to the extruded body
+	  // AA width from the hit point's screen footprint (linear across the plane -> no crease),
+	  // not fwidth(d) which spikes on the chebyshev corner ridge and speckles the corners
+	  float aa = max(max(length(dFdx(p)), length(dFdy(p))), 1e-4);
+	  float sp = mix(uSpacing, uHeroSpacing, uHero);   // hero retunes spacing so ring 3 merges at center
+	  // hero/intro: line is a fixed fraction of the spacing (scales with the logo, so its thickness
+	  // relative to the mark is identical on every device); stages keep a constant CSS-pixel width.
+	  // floored at 1px so it never vanishes when zoomed out.
+	  float lwStage = aa * uDpr * 1.04;
+	  float lwHero  = max(sp * 0.15, aa);
+	  float lw = mix(lwStage, lwHero, uHero) * mix(1.0, 1.4, uDock);   // dock: thicken the lone contour
+	  // hero: grow the solid body outward by ~one line half-width so the body->ring1 gap matches the even
+	  // ring->ring gaps (the body is a hard fill edge; the rings are centered strokes). the ring lattice is
+	  // NOT shifted, so the outer ring stays exactly on the notch line (1-leg) where the two legs' fields meet,
+	  // forming a single merged line rather than two parallel ones.
+	  float fill = 1.0 - smoothstep(-aa, aa, d - lwHero * uHero);
+	
+	  float k = d / sp;
+	  float m = floor(k + 0.5);
+	  float rdist = abs(d - m * sp);
+	  float ring = 1.0 - smoothstep(lw - aa, lw + aa, rdist);   // edge AA'd to the pixel footprint (crisp), not to lw
+	  ring *= step(0.5, m) * step(0.0, d);
+	  // hero shows 3 rings; docking widens the spacing (uHeroSpacing) so the outer ring lands on the notch
+	  // centerline where the two legs' fields merge
+	  ring *= mix(exp(-max(d, 0.0) / uFade), step(m, mix(3.5, 2.5, uDock)), uHero);
+	  // docking drops the inner contour (m=1 fades out), leaving the small header mark a single outer line
+	  ring *= mix(1.0, step(1.5, m), uDock);
+	
+	  float v = max(fill, ring);
+	  return vec2(v, v);
+	}
+	
+	// MARK: b-rep overlay (3D edges + corner vertices, drawn over the scene)
+	
+	vec2 segDist(vec3 ro, vec3 rd, vec3 a, vec3 b){   // -> (distance, tRay)
+	  vec3 v = b - a;
+	  vec3 w0 = ro - a;
+	  float bb = dot(rd, v), cc = dot(v, v), dd = dot(rd, w0), ee = dot(v, w0);
+	  float denom = cc - bb * bb;                       // = A*C - B*B with A = 1
+	  float sSeg = (denom > 1e-6) ? clamp((ee - bb * dd) / denom, 0.0, 1.0)
+	                              : clamp(-ee / max(cc, 1e-6), 0.0, 1.0);
+	  vec3 pSeg = a + v * sSeg;
+	  float tRay = max(dot(pSeg - ro, rd), 0.0);
+	  return vec2(length(ro + rd * tRay - pSeg), tRay);
+	}
+	
+	vec4 brep(vec3 ro, vec3 rd, float pxK){
+	  if (uTBrep < 0.001) return vec4(0.0);
+	  vec2 P[8];
+	  float hh = uHalfH, nbW = 1.0 - uLeg, nt = hh - uBar;
+	  P[0] = vec2(-1.0, hh);  P[1] = vec2(1.0, hh);  P[2] = vec2(1.0, -hh);  P[3] = vec2(nbW, -hh);
+	  P[4] = vec2(nbW, nt);   P[5] = vec2(-nbW, nt);  P[6] = vec2(-nbW, -hh); P[7] = vec2(-1.0, -hh);
+	  float zb = -uExtH, zt = uExtH;        // symmetric slab
+	
+	  float emin = 1e9, vmin = 1e9;
+	  for (int i = 0; i < 8; i++){
+	    int j = (i == 7) ? 0 : i + 1;
+	    vec2 a2 = P[i], b2 = P[j];
+	    // bottom, top, vertical edges
+	    vec2 sb = segDist(ro, rd, vec3(a2, zb), vec3(b2, zb));
+	    vec2 st = segDist(ro, rd, vec3(a2, zt), vec3(b2, zt));
+	    vec2 sv = segDist(ro, rd, vec3(a2, zb), vec3(a2, zt));
+	    emin = min(emin, sb.x * pxK);
+	    emin = min(emin, st.x * pxK);
+	    emin = min(emin, sv.x * pxK);
+	    // corner vertices (bottom + top)
+	    vec3 vb = vec3(a2, zb), vt = vec3(a2, zt);
+	    float tb = max(dot(vb - ro, rd), 0.0), tt = max(dot(vt - ro, rd), 0.0);
+	    vmin = min(vmin, length(ro + rd * tb - vb) * pxK);
+	    vmin = min(vmin, length(ro + rd * tt - vt) * pxK);
+	  }
+	  float edge = 1.0 - smoothstep(0.6, 1.5, emin);         // crisp ~1.5px line, no glow
+	  float vfill = 1.0 - smoothstep(5.0, 6.4, vmin);        // ~13px vertex handles
+	  return vec4(ACCENT, max(edge, vfill) * uTBrep);
+	}
+	
+	// MARK: main
+	
+	void main(){
+	  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+	
+	  // orthographic camera: orbit from head-on to a 3/4 engineering view (parallel rays)
+	  float az = mix(0.0, 0.55, uTCam);
+	  float el = mix(0.0, 0.45, uTCam);
+	  vec3 dir = vec3(sin(az) * cos(el), sin(el), cos(az) * cos(el));
+	  vec3 eye = dir * 6.0;
+	  vec3 target = vec3(0.0);                    // body is centered on the origin
+	  vec3 fwd = normalize(target - eye);
+	  vec3 right = normalize(cross(fwd, vec3(0.0, 1.0, 0.0)));
+	  vec3 up = cross(right, fwd);
+	  float orthoH = uOrthoBase * (1.0 + 0.14 * uTCam + 0.42 * uTExt) * uViewScale;   // visible height
+	  vec2 uvc = uv - uShift;                                       // slide the scene in screen space
+	  vec3 ro = eye + (uvc.x * right + uvc.y * up) * orthoH;
+	  vec3 rd = fwd;
+	
+	  float pxK = uRes.y / orthoH;                                  // pixels per world unit (constant)
+	
+	  // slice plane carrying the distance field, through the origin:
+	  //  first 180 deg -> turntable about the vertical axis; final 90 deg -> tilt about the
+	  //  horizontal axis, ending as the y = 0 plane that splits the logo horizontally in half
+	  float PI = 3.14159265;
+	  vec3 N;
+	  if (uSliceAng <= PI) {
+	    N = vec3(sin(uSliceAng), 0.0, cos(uSliceAng));
+	  } else {
+	    float b = uSliceAng - PI;                           // 0 .. PI/2
+	    N = vec3(0.0, sin(b), -cos(b));                      // (0,0,-1) -> (0,1,0)
+	  }
+	  float dn = dot(rd, N);
+	  float tF = (abs(dn) > 1e-4) ? (-dot(ro, N) / dn) : -1.0;
+	  vec2 fieldV = (tF > 0.0 && tF < 80.0) ? shadeField(ro + rd * tF) : vec2(0.0);
+	  vec3 fieldCol = vec3(fieldV.x);
+	  float fieldA = fieldV.y;
+	
+	  // extruded solid surface
+	  float ts = (uExtH > 0.001) ? march(ro, rd) : -1.0;
+	  vec3 solidCol = vec3(0.0);
+	  float solidA = 0.0;
+	  if (ts > 0.0){
+	    vec3 p = ro + rd * ts;
+	    vec3 n = calcNormal(p);
+	    vec3 L = normalize(vec3(0.35, 0.85, 0.45));
+	    float diff = clamp(dot(n, L), 0.0, 1.0);
+	    float rim = pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 2.5);
+	    vec3 lit = vec3(0.92) * (0.30 + 0.70 * diff) + rim * 0.16;
+	    solidCol = mix(vec3(1.0), lit, smoothstep(0.04, 0.42, uExtH));
+	    solidA = mix(0.85, 0.22, uTSlice);              // ghost the body while slicing so the field reads
+	  }
+	
+	  // depth-sorted over-composite of the two translucent layers (far first)
+	  vec3 col = vec3(0.0);
+	  float tFv = (tF > 0.0) ? tF : 1e9;
+	  float tSv = (ts > 0.0) ? ts : 1e9;
+	  if (tFv >= tSv){
+	    col = mix(col, fieldCol, fieldA);
+	    col = mix(col, solidCol, solidA);
+	  } else {
+	    col = mix(col, solidCol, solidA);
+	    col = mix(col, fieldCol, fieldA);
+	  }
+	
+	  // b-rep wireframe + vertices, always on top (over-composite, crisp lines)
+	  vec4 b = brep(ro, rd, pxK);
+	  col = mix(col, b.rgb, b.a);
+	
+	  col *= mix(vec3(1.0), ACCENT, uTint);          // tint the logo + field to the accent color
+	  col = pow(clamp(col, 0.0, 1.0), vec3(0.9));   // gentle lift
+	
+	  // docking: keep the top strip opaque (the dark header), fade everything below it to transparent so
+	  // the white page scrolls through underneath
+	  float headerTop = uRes.y - uHeader * uDpr;     // device-px y of the header's lower edge (y up)
+	  float alpha = mix(1.0, step(headerTop, gl_FragCoord.y), smoothstep(0.0, 0.7, uDock));
+	  fragColor = vec4(col, alpha);
+	}
+	</script>
+	
+
+	<script src="./js/hero.js" defer></script>
 	<script src="./js/main.js" defer></script>
 </body>
 
