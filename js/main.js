@@ -6,7 +6,7 @@ const ACCORDION_DURATION = 0.45;
 const ACCORDION_EASE = "power2.out";
 
 let articles = [];
-let activeIndex = 0;
+let activeIndex = -1;
 let isAnimating = false;
 
 function prefersReducedMotion() {
@@ -238,26 +238,51 @@ function setActiveArticle(
 	});
 }
 
+function collapseAllArticles() {
+	activeIndex = -1;
+
+	articles.forEach((_, itemIndex) => {
+		const item = getArticleItem(itemIndex);
+		if (!item) return;
+		setCollapsedState(item);
+	});
+}
+
 function activateFromUrl({ updateHistory = false, replaceHistory = false, animate = false } = {}) {
 	const slug = getSlugFromUrl();
-	const index = slug ? findIndexBySlug(slug) : 0;
-	const validIndex = index >= 0 ? index : 0;
 
-	activeIndex = validIndex;
+	if (!slug) {
+		collapseAllArticles();
+		return;
+	}
+
+	const index = findIndexBySlug(slug);
+
+	if (index < 0) {
+		collapseAllArticles();
+
+		if (replaceHistory) {
+			history.replaceState({}, "", `${window.location.pathname}${window.location.search}`);
+		}
+
+		return;
+	}
+
+	activeIndex = index;
 
 	articles.forEach((_, itemIndex) => {
 		const item = getArticleItem(itemIndex);
 		if (!item) return;
 
-		if (itemIndex === validIndex) {
+		if (itemIndex === index) {
 			setExpandedState(item);
 		} else {
 			setCollapsedState(item);
 		}
 	});
 
-	if (updateHistory || !slug || index < 0) {
-		updateUrl(articles[validIndex].slug, replaceHistory || !slug || index < 0);
+	if (updateHistory) {
+		updateUrl(articles[index].slug, replaceHistory);
 	}
 }
 
@@ -275,6 +300,12 @@ function handlePopState() {
 	if (isAnimating) return;
 
 	const slug = history.state?.slug ?? getSlugFromUrl();
+
+	if (!slug) {
+		collapseAllArticles();
+		return;
+	}
+
 	const index = findIndexBySlug(slug);
 
 	if (index >= 0 && index !== activeIndex) {
