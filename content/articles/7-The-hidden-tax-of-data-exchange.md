@@ -4,7 +4,7 @@ slug: the-hidden-tax-of-data-exchange
 order: 7
 ---
 
-## What a geometry kernel actually is
+## The hidden tax of data exchange
 
 ### What actually happens when you export a file and open it somewhere else. It's worse than you think.
 
