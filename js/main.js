@@ -124,7 +124,7 @@ function buildAccordion() {
 							</div>
 							<article
 								id="article-${article.slug}"
-								class="article-content min-w-0 flex-1 space-y-5 border-t border-r border-b border-black pt-5 pr-5"
+								class="article-content min-w-0 flex-1 space-y-5 border-t border-r border-black pt-5 pr-5 pb-5"
 							>
 								${article.html}
 							</article>
