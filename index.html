@@ -12,6 +12,7 @@
 		href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 		rel="stylesheet">
 	<link rel="stylesheet" href="./dist/output.css">
+	<link rel="stylesheet" href="./css/hubspot-form.css">
 </head>
 
 <body>
@@ -90,7 +91,7 @@
 
 		<section
 			class="relative min-h-[90svh] bg-[url('../assets/images/footer-bg.webp')] bg-cover bg-center px-5 py-[14vw] text-center text-white md:px-6">
-			<div class="mx-auto max-w-[48.125rem] bg-white px-[2rem] py-[1.5rem] text-black md:px-[6rem]">
+			<div class="neumann-signup mx-auto max-w-[48.125rem] bg-white px-[2rem] py-[1.5rem] text-black md:px-[6rem]">
 				<h3 class="text-left">Not convinced yet?</h3>
 				<p class="my-[1rem] text-left font-heading text-[1rem] font-medium leading-none tracking-normal">
 					Be the first to read the next chapter. Launching fall 2026.
@@ -101,7 +102,13 @@
 					hbspt.forms.create({
 						portalId: "7258835",
 						formId: "0c24536e-2b21-49a3-84dc-60d536a2df86",
-						region: "na1"
+						region: "na1",
+						onFormReady: function (form) {
+							const root = form instanceof HTMLElement ? form : form?.[0];
+							const submit = root?.querySelector?.('input[type="submit"]')
+								|| document.querySelector(".neumann-signup input[type=\"submit\"]");
+							if (submit) submit.value = "Sign me up";
+						}
 					});
 				</script>
 			</div>

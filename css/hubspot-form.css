@@ -1,0 +1,260 @@
+/* HubSpot signup form — bordered grid layout matching the Neumann footer design. */
+
+.neumann-signup .hbspt-form,
+.neumann-signup .hs-form {
+	width: 100%;
+	max-width: none;
+}
+
+.neumann-signup .hbspt-form {
+	margin-top: 1.25rem;
+	text-align: left;
+}
+
+.neumann-signup .hs-form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.neumann-signup .hs-form fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.5rem;
+	max-width: none;
+}
+
+.neumann-signup .hs-form fieldset + fieldset,
+.neumann-signup .hs-form fieldset + .hs_submit {
+	margin-top: 0;
+}
+
+.neumann-signup .hs-form fieldset.form-columns-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+	width: 100%;
+}
+
+.neumann-signup .hs-form fieldset.form-columns-1 {
+	grid-template-columns: minmax(0, 1fr);
+	width: 100%;
+}
+
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field {
+	position: relative;
+	display: grid;
+	float: none;
+	width: 100%;
+	min-width: 0;
+	max-width: none;
+	margin: 0;
+	padding-bottom: 1.25rem;
+}
+
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field .input,
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field .hs-input,
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field input,
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field textarea,
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field select {
+	width: 100%;
+	max-width: none;
+}
+
+.neumann-signup .hs-form-field > label,
+.neumann-signup .hs-form-field .input {
+	grid-area: 1 / 1;
+}
+
+.neumann-signup .hs-form-field > label {
+	position: relative;
+	z-index: 1;
+	align-self: center;
+	justify-self: start;
+	margin: 0 0 0 0.875rem;
+	padding: 0;
+	font-family: "Titillium Web", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	letter-spacing: 0;
+	text-box: trim-both cap alphabetic;
+	color: #8a8a8a;
+	pointer-events: none;
+	transform: none;
+	transition: opacity 0.15s ease;
+}
+
+.neumann-signup .hs-fieldtype-textarea > label {
+	align-self: start;
+	margin-top: 1rem;
+}
+
+.neumann-signup .hs-form-field:focus-within > label,
+.neumann-signup .hs-form-field:has(.hs-input:not(:placeholder-shown)) > label,
+.neumann-signup .hs-form-field:has(textarea:not(:placeholder-shown)) > label {
+	opacity: 0;
+}
+
+.neumann-signup .hs-form-required {
+	color: inherit;
+}
+
+.neumann-signup .hs-form-field .input {
+	margin: 0;
+	width: 100%;
+}
+
+.neumann-signup .hs-input {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0.875rem;
+	border: 0.0625rem solid #000;
+	border-radius: 0;
+	background: #fff;
+	font-family: "Titillium Web", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	letter-spacing: 0;
+	text-box: trim-both cap alphabetic;
+	color: #000;
+	appearance: none;
+	-webkit-appearance: none;
+}
+
+.neumann-signup .hs-input:focus {
+	outline: 0.125rem solid #000;
+	outline-offset: 0;
+}
+
+.neumann-signup .hs-input.invalid.error {
+	border-color: #000;
+}
+
+.neumann-signup textarea.hs-input {
+	min-height: 3rem;
+	padding-top: 1rem;
+	resize: vertical;
+}
+
+.neumann-signup select.hs-input {
+	padding-right: 2.25rem;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.875rem center;
+	background-size: 0.75rem auto;
+	cursor: pointer;
+}
+
+.neumann-signup .hs-error-msgs {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.neumann-signup .hs-error-msg {
+	font-family: "Titillium Web", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	letter-spacing: 0;
+	text-box: trim-both cap alphabetic;
+	color: var(--color-accent);
+}
+
+.neumann-signup .legal-consent-container,
+.neumann-signup .hs-richtext {
+	margin-top: 0.5rem;
+	font-family: "Titillium Web", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	letter-spacing: 0;
+	text-box: trim-both cap alphabetic;
+	color: #000;
+}
+
+.neumann-signup .hs-form-booleancheckbox-display {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.625rem;
+}
+
+.neumann-signup .hs-form-booleancheckbox-display input[type="checkbox"] {
+	flex-shrink: 0;
+	width: 0.875rem;
+	height: 0.875rem;
+	margin: 0.125rem 0 0;
+	border: 0.0625rem solid #000;
+	border-radius: 0;
+	accent-color: var(--color-accent);
+}
+
+.neumann-signup .hs_submit {
+	margin-top: 0;
+	padding: 0;
+}
+
+.neumann-signup .hs_submit .actions {
+	display: inline-block;
+}
+
+.neumann-signup .hs-button.primary {
+	display: inline-block;
+	min-width: 9.5rem;
+	margin: 0;
+	padding: 0.875rem 1.75rem;
+	border: 0;
+	border-radius: 0;
+	background: var(--color-accent);
+	color: #fff;
+	font-family: inherit;
+	font-weight: 700;
+	font-style: normal;
+	font-size: 1rem;
+	line-height: 1;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.15s ease;
+}
+
+.neumann-signup .hs-button.primary:hover,
+.neumann-signup .hs-button.primary:focus-visible {
+	background: color-mix(in srgb, var(--color-accent) 88%, #000);
+}
+
+.neumann-signup .hs-button.primary:focus-visible {
+	outline: 0.125rem solid #000;
+	outline-offset: 0.125rem;
+}
+
+.neumann-signup .submitted-message {
+	font-family: "Tomorrow", sans-serif;
+	font-weight: 500;
+	font-style: normal;
+	font-size: 2rem;
+	line-height: 1;
+	letter-spacing: 0;
+	text-box: trim-both cap alphabetic;
+	vertical-align: middle;
+	color: var(--color-accent);
+}
+
+@media (width < 40rem) {
+	.neumann-signup .hs-form fieldset.form-columns-2 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
