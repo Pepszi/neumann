@@ -5,7 +5,8 @@
 	"scripts": {
 		"build:articles": "node scripts/build-articles.mjs",
 		"build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
-		"build": "npm run build:articles && npm run build:css",
+		"build:vendor": "mkdir -p js/vendor && cp node_modules/gsap/dist/gsap.min.js js/vendor/gsap.min.js",
+		"build": "npm run build:vendor && npm run build:articles && npm run build:css",
 		"dev:articles": "node scripts/build-articles.mjs",
 		"dev": "npm run dev:articles && tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
 	},
@@ -15,5 +16,8 @@
 		"gray-matter": "^4.0.3",
 		"marked": "^15.0.12",
 		"tailwindcss": "^4.3.1"
+	},
+	"dependencies": {
+		"gsap": "^3.12.7"
 	}
 }

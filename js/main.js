@@ -1,17 +1,18 @@
-// Loads built articles and renders accessible tabbed article content with slug-based URL routing.
+// Loads built articles and renders an animated accordion with slug-based URL routing.
 
-// DOM references and application state
-const tabsEl = document.getElementById("article-tabs");
-const panelEl = document.getElementById("article-panel");
-const chapterLabelEl = document.getElementById("chapter-label");
-const chaptersToggleEl = document.getElementById("chapters-toggle");
-const chaptersPanelEl = document.getElementById("chapters-panel");
-const backedBySpacerEl = document.getElementById("backed-by-spacer");
+const accordionEl = document.getElementById("articles-accordion");
+
+const ACCORDION_DURATION = 0.45;
+const ACCORDION_EASE = "power2.out";
 
 let articles = [];
 let activeIndex = 0;
+let isAnimating = false;
 
-// URL routing and browser history
+function prefersReducedMotion() {
+	return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function getSlugFromUrl() {
 	return window.location.hash.slice(1) || null;
 }
@@ -30,188 +31,277 @@ function updateUrl(slug, replace = false) {
 	}
 }
 
-// Tab navigation rendering
-function renderTabs() {
-	tabsEl.innerHTML = articles
-		.map((article, index) => {
-			const isActive = index === activeIndex;
+function getArticleItem(index) {
+	return accordionEl.querySelector(`.article-item[data-index="${index}"]`);
+}
 
-			return `
+function getPanel(item) {
+	return item.querySelector(".article-panel");
+}
+
+function getTrigger(item) {
+	return item.querySelector(".article-collapsed");
+}
+
+function getPanelInner(item) {
+	return getPanel(item).querySelector(".article-panel-inner");
+}
+
+function measureInnerHeight(inner) {
+	gsap.set(inner, {
+		height: "auto",
+		position: "absolute",
+		visibility: "hidden",
+		width: "100%",
+		left: 0,
+		right: 0,
+		pointerEvents: "none",
+	});
+	const height = inner.offsetHeight;
+	gsap.set(inner, {
+		height: 0,
+		clearProps: "position,visibility,width,left,right,pointerEvents",
+	});
+	return height;
+}
+
+function setCollapsedState(item) {
+	const panel = getPanel(item);
+	const inner = getPanelInner(item);
+	const trigger = getTrigger(item);
+
+	item.classList.remove("is-open");
+	trigger.setAttribute("aria-expanded", "false");
+	trigger.hidden = false;
+	panel.hidden = true;
+	gsap.set(panel, { clearProps: "overflow" });
+	gsap.set(inner, { clearProps: "height,overflow" });
+}
+
+function setExpandedState(item) {
+	const panel = getPanel(item);
+	const inner = getPanelInner(item);
+	const trigger = getTrigger(item);
+
+	item.classList.add("is-open");
+	trigger.setAttribute("aria-expanded", "true");
+	trigger.hidden = true;
+	panel.hidden = false;
+	gsap.set(panel, { clearProps: "overflow" });
+	gsap.set(inner, { height: "auto", clearProps: "overflow" });
+}
+
+function buildAccordion() {
+	accordionEl.innerHTML = articles
+		.map(
+			(article, index) => `
+			<div class="article-item" data-index="${index}" data-slug="${article.slug}">
 				<button
 					type="button"
-					role="tab"
-					id="tab-${article.slug}"
-					aria-selected="${isActive}"
-					aria-controls="article-panel"
-					tabindex="${isActive ? "0" : "-1"}"
+					id="article-header-${article.slug}"
+					class="article-collapsed w-full cursor-pointer border-t border-r border-black pt-5 pr-5 text-left"
+					aria-expanded="false"
+					aria-controls="article-panel-${article.slug}"
 					data-index="${index}"
 				>
-					${article.title}
+					<span class="article-chapter">Chapter ${article.order}</span>
+					<span class="article-title">${article.title}</span>
 				</button>
-			`;
-		})
+				<div
+					id="article-panel-${article.slug}"
+					class="article-panel"
+					role="region"
+					aria-labelledby="article-header-${article.slug}"
+					hidden
+				>
+					<div class="article-panel-inner">
+						<div class="article-expanded flex">
+							<div class="chapter-label-col shrink-0 self-start border-t border-l border-black">
+								<div class="chapter-label-inner">
+									<span class="article-chapter chapter-label-vertical">Chapter ${article.order}</span>
+									<span class="chapter-label-spacer" aria-hidden="true"></span>
+								</div>
+							</div>
+							<article
+								id="article-${article.slug}"
+								class="article-content min-w-0 flex-1 space-y-5 border-t border-r border-b border-black pt-5 pr-5"
+							>
+								${article.html}
+							</article>
+						</div>
+					</div>
+				</div>
+			</div>
+		`
+		)
 		.join("");
 }
 
-// Article panel rendering
-function renderPanel() {
-	const article = articles[activeIndex];
-	const nextArticle = articles[activeIndex + 1];
+function collapsePanel(item, duration = ACCORDION_DURATION) {
+	const panel = getPanel(item);
+	const inner = getPanelInner(item);
+	const startHeight = inner.offsetHeight;
 
-	panelEl.setAttribute("aria-labelledby", `tab-${article.slug}`);
-	chapterLabelEl.textContent = `Chapter ${article.order}`;
-
-	const nextChapterLink = nextArticle
-		? `<a class="next-chapter" href="#${nextArticle.slug}" data-next-index="${activeIndex + 1}">Next chapter</a>`
-		: "";
-
-	panelEl.innerHTML = article.html + nextChapterLink;
+	return gsap
+		.timeline()
+		.set(panel, { overflow: "hidden" })
+		.set(inner, { height: startHeight, overflow: "hidden" })
+		.to(inner, { height: 0, duration, ease: ACCORDION_EASE })
+		.add(() => setCollapsedState(item));
 }
 
-// Keep the "Backed by" banner aligned with the article column by mirroring the
-// chapters column width onto an invisible spacer (only while that column is in flow at lg+).
-function syncBackedBySpacer() {
-	if (!backedBySpacerEl) return;
+function expandPanel(item, duration = ACCORDION_DURATION) {
+	const panel = getPanel(item);
+	const inner = getPanelInner(item);
+	const trigger = getTrigger(item);
 
-	const chaptersInFlow = window.matchMedia("(min-width: 64rem)").matches;
-	backedBySpacerEl.style.width = chaptersInFlow ? `${chaptersPanelEl.offsetWidth / 16}rem` : "";
+	item.classList.add("is-open");
+	trigger.setAttribute("aria-expanded", "true");
+
+	if (trigger === document.activeElement) {
+		trigger.blur();
+	}
+
+	trigger.hidden = true;
+	panel.hidden = false;
+
+	gsap.set(panel, { overflow: "hidden" });
+	gsap.set(inner, { height: 0, overflow: "hidden" });
+
+	const targetHeight = measureInnerHeight(inner);
+
+	return gsap.to(inner, {
+		height: targetHeight,
+		duration,
+		ease: ACCORDION_EASE,
+		onComplete: () => {
+			gsap.set(inner, { height: "auto", clearProps: "overflow" });
+			gsap.set(panel, { clearProps: "overflow" });
+		},
+	});
 }
 
-// Active tab state management
-function setActiveTab(index, { updateHistory = true, replaceHistory = false } = {}) {
+function compensateLayoutShift(targetElement, previousTop) {
+	const delta = targetElement.getBoundingClientRect().top - previousTop;
+
+	if (Math.abs(delta) > 0.5) {
+		window.scrollTo(0, window.scrollY + delta);
+	}
+}
+
+function animateAccordion(fromIndex, toIndex) {
+	const fromItem = getArticleItem(fromIndex);
+	const toItem = getArticleItem(toIndex);
+	const targetTop = toItem.getBoundingClientRect().top;
+	const timeline = gsap.timeline({
+		onComplete: () => {
+			isAnimating = false;
+		},
+	});
+
+	isAnimating = true;
+	timeline.add(collapsePanel(fromItem));
+	timeline.add(() => compensateLayoutShift(toItem, targetTop));
+	timeline.add(expandPanel(toItem));
+}
+
+function setActiveArticle(
+	index,
+	{ updateHistory = true, replaceHistory = false, animate = true } = {}
+) {
+	if (index === activeIndex) return;
+
+	const previousIndex = activeIndex;
 	activeIndex = index;
-	renderTabs();
-	renderPanel();
-	syncBackedBySpacer();
 
 	if (updateHistory) {
 		updateUrl(articles[index].slug, replaceHistory);
 	}
+
+	const shouldAnimate =
+		animate && !prefersReducedMotion() && typeof gsap !== "undefined" && previousIndex !== index;
+
+	if (shouldAnimate && getArticleItem(previousIndex)?.classList.contains("is-open")) {
+		animateAccordion(previousIndex, index);
+		return;
+	}
+
+	articles.forEach((_, itemIndex) => {
+		const item = getArticleItem(itemIndex);
+		if (!item) return;
+
+		if (itemIndex === index) {
+			setExpandedState(item);
+		} else {
+			setCollapsedState(item);
+		}
+	});
 }
 
-function activateFromUrl({ updateHistory = false, replaceHistory = false } = {}) {
+function activateFromUrl({ updateHistory = false, replaceHistory = false, animate = false } = {}) {
 	const slug = getSlugFromUrl();
 	const index = slug ? findIndexBySlug(slug) : 0;
 	const validIndex = index >= 0 ? index : 0;
 
-	setActiveTab(validIndex, {
-		updateHistory: updateHistory || !slug || index < 0,
-		replaceHistory: replaceHistory || !slug || index < 0,
+	activeIndex = validIndex;
+
+	articles.forEach((_, itemIndex) => {
+		const item = getArticleItem(itemIndex);
+		if (!item) return;
+
+		if (itemIndex === validIndex) {
+			setExpandedState(item);
+		} else {
+			setCollapsedState(item);
+		}
 	});
-}
 
-// Mobile "Chapters" dropdown (reuses the desktop navigation, repositioned via CSS)
-function isChaptersOpen() {
-	return chaptersToggleEl.getAttribute("aria-expanded") === "true";
-}
-
-function setChaptersOpen(open) {
-	chaptersToggleEl.setAttribute("aria-expanded", String(open));
-	chaptersPanelEl.classList.toggle("max-lg:hidden", !open);
-	chaptersPanelEl.classList.toggle("max-lg:flex", open);
-}
-
-function handleChaptersToggle() {
-	setChaptersOpen(!isChaptersOpen());
-}
-
-function handleOutsideClick(event) {
-	if (!isChaptersOpen()) return;
-	if (chaptersPanelEl.contains(event.target) || chaptersToggleEl.contains(event.target)) return;
-
-	setChaptersOpen(false);
-}
-
-function handleEscapeKey(event) {
-	if (event.key !== "Escape" || !isChaptersOpen()) return;
-
-	setChaptersOpen(false);
-	chaptersToggleEl.focus();
-}
-
-// Event handlers
-function handleTabClick(event) {
-	const button = event.target.closest("[role='tab']");
-	if (!button) return;
-
-	setActiveTab(Number(button.dataset.index));
-	setChaptersOpen(false);
-	scrollToArticleSection();
-}
-
-function scrollToArticleSection() {
-	const section = panelEl.closest("section");
-	(section ?? panelEl).scrollIntoView({ block: "start" });
-}
-
-function handleNextChapterClick(event) {
-	const link = event.target.closest(".next-chapter");
-	if (!link) return;
-
-	event.preventDefault();
-	setActiveTab(Number(link.dataset.nextIndex));
-	scrollToArticleSection();
-}
-
-function handleTabKeydown(event) {
-	const tabs = [...tabsEl.querySelectorAll("[role='tab']")];
-	const currentIndex = tabs.indexOf(document.activeElement);
-	if (currentIndex === -1) return;
-
-	let nextIndex = currentIndex;
-
-	if (event.key === "ArrowDown") {
-		nextIndex = (currentIndex + 1) % tabs.length;
-	} else if (event.key === "ArrowUp") {
-		nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-	} else if (event.key === "Home") {
-		nextIndex = 0;
-	} else if (event.key === "End") {
-		nextIndex = tabs.length - 1;
-	} else {
-		return;
+	if (updateHistory || !slug || index < 0) {
+		updateUrl(articles[validIndex].slug, replaceHistory || !slug || index < 0);
 	}
+}
 
-	event.preventDefault();
-	setActiveTab(nextIndex);
-	tabsEl.querySelector(`[data-index="${nextIndex}"]`).focus();
+function handleAccordionClick(event) {
+	if (isAnimating) return;
+
+	const collapsedButton = event.target.closest(".article-collapsed");
+	if (!collapsedButton) return;
+
+	collapsedButton.blur();
+	setActiveArticle(Number(collapsedButton.dataset.index));
 }
 
 function handlePopState() {
+	if (isAnimating) return;
+
 	const slug = history.state?.slug ?? getSlugFromUrl();
 	const index = findIndexBySlug(slug);
 
-	if (index >= 0) {
-		setActiveTab(index, { updateHistory: false });
+	if (index >= 0 && index !== activeIndex) {
+		setActiveArticle(index, { updateHistory: false, animate: !prefersReducedMotion() });
 	}
 }
 
-// Initialization
 async function init() {
 	const response = await fetch("./dist/articles.json");
 
 	if (!response.ok) {
-		panelEl.innerHTML = "<p>Unable to load articles.</p>";
+		accordionEl.innerHTML = "<p>Unable to load articles.</p>";
 		return;
 	}
 
 	articles = await response.json();
 
 	if (!articles.length) {
-		panelEl.innerHTML = "<p>No articles found.</p>";
+		accordionEl.innerHTML = "<p>No articles found.</p>";
 		return;
 	}
 
+	buildAccordion();
 	activateFromUrl({ replaceHistory: true });
 
-	tabsEl.addEventListener("click", handleTabClick);
-	tabsEl.addEventListener("keydown", handleTabKeydown);
-	panelEl.addEventListener("click", handleNextChapterClick);
-	chaptersToggleEl.addEventListener("click", handleChaptersToggle);
-	document.addEventListener("click", handleOutsideClick);
-	document.addEventListener("keydown", handleEscapeKey);
+	accordionEl.addEventListener("click", handleAccordionClick);
 	window.addEventListener("popstate", handlePopState);
-	window.addEventListener("resize", syncBackedBySpacer);
 }
 
 init();

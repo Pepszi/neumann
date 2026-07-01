@@ -36,7 +36,7 @@
 		text-box: trim-both cap alphabetic;
 	}
 
-	#article-panel h2 {
+	.article-content h2 {
 		font-weight: 500;
 		font-size: 1.125rem;
 		line-height: 1;
@@ -47,12 +47,12 @@
 	}
 
 	@media (width >= 48rem) {
-		#article-panel h2 {
+		.article-content h2 {
 			font-size: 1.25rem;
 		}
 	}
 
-	#article-panel h3 {
+	.article-content h3 {
 		font-weight: 500;
 		font-size: 1.75rem;
 		line-height: 1;
@@ -62,7 +62,7 @@
 	}
 
 	@media (width >= 48rem) {
-		#article-panel h3 {
+		.article-content h3 {
 			font-size: 2rem;
 		}
 	}
@@ -73,48 +73,86 @@
 		line-height: 1;
 	}
 
-	#article-panel hr {
+	.article-content hr {
 		border: 0;
 		border-top: 0.0625rem solid currentColor;
 	}
 
-	#article-panel ol {
+	.article-content ol {
 		list-style: decimal;
 	}
 
-	#article-panel ul {
+	.article-content ul {
 		list-style: disc;
 	}
 
-	#article-panel li + li {
+	.article-content li + li {
 		margin-top: 0.625rem;
 	}
 
-	.next-chapter {
-		display: inline-block;
+	.article-chapter {
 		font-family: var(--font-heading);
 		font-weight: 500;
 		font-size: 0.75rem;
 		line-height: 1;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: var(--color-accent);
+		vertical-align: middle;
 		text-box: trim-both cap alphabetic;
+		color: var(--color-accent);
 	}
 
-	#article-tabs button {
+	.article-collapsed {
+		display: grid;
+		grid-template-columns: 6.75rem 1fr;
+		column-gap: 0.75rem;
+		align-items: center;
 		font-family: var(--font-heading);
-		font-weight: 600;
-		font-size: 0.5rem;
+		font-weight: 500;
+		font-size: 0.75rem;
 		line-height: 1;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		cursor: pointer;
+		vertical-align: middle;
 		text-box: trim-both cap alphabetic;
 	}
 
-	#article-tabs button[aria-selected="true"] {
-		color: var(--color-accent);
+	.article-collapsed .article-chapter {
+		white-space: nowrap;
+	}
+
+	.chapter-label-vertical {
+		display: block;
+		writing-mode: vertical-rl;
+		rotate: 180deg;
+	}
+
+	@media (width >= 48rem) {
+		.chapter-label-vertical {
+			font-size: 1.25rem;
+		}
+	}
+
+	.article-expanded {
+		gap: 1.25rem;
+		align-items: flex-start;
+	}
+
+	.article-panel {
+		position: relative;
+		overflow: hidden;
+		overflow-anchor: none;
+	}
+
+	.article-panel-inner {
+		overflow: hidden;
+		transform-origin: top center;
+	}
+
+	@media (width >= 48rem) {
+		.article-collapsed {
+			grid-template-columns: 6.25rem 1fr;
+		}
 	}
 
 	/* Top/left/bottom padding on the untransformed wrapper; right spacing uses a
@@ -408,5 +446,9 @@
 
 	.article-section {
 		scroll-margin-top: var(--sticky-below-header);
+	}
+
+	#articles-accordion {
+		overflow-anchor: none;
 	}
 }
