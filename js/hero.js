@@ -291,17 +291,31 @@ let dragging = false, dragStartY = 0, dragStage = 0, dragDir = 0, touchActive = 
 window.addEventListener('touchstart', e => {
   if (!mobileMQ.matches) return;
   touchActive = true;                               // a finger is down (even over the text) -> suppress the barrier
-  if (window.scrollY > dockEnd()) return;           // inside the white page: native scrolling owns it
-  snapAnim = null;                                  // cancel any in-flight snap (incl. a dock-zone settle)
-  dragging = true;
+  snapAnim = null;                                  // cancel any in-flight snap on every touch
   dragStartY = e.touches[0].clientY;
-  dragStage = Math.max(0, Math.min(7, Math.round(window.scrollY / VH)));
   dragDir = 0;
+  if (window.scrollY > dockEnd() + 0.5){            // inside the white page: native scroll until the dock top
+    dragging = false;
+    return;
+  }
+  dragging = true;
+  dragStage = Math.max(0, Math.min(7, Math.round(window.scrollY / VH)));
 }, { passive: true });
 
 window.addEventListener('touchmove', e => {
-  if (!dragging) return;
-  const vh = VH, dy = dragStartY - e.touches[0].clientY;            // forward (toward text) positive
+  if (!mobileMQ.matches || !touchActive) return;
+  const vh = VH, dE = dockEnd(), dy = dragStartY - e.touches[0].clientY;   // forward (toward text) positive
+  if (!dragging){
+    if (window.scrollY > dE) return;                // still in the white page — native scroll owns it
+    // native upward scroll reached the dock top on this same gesture -> take over to undock into the hero
+    if (dy < -2){
+      dragging = true;
+      dragStage = 7;
+      snapAnim = null;
+    } else {
+      return;
+    }
+  }
   if (dragStage >= 7 && dy > 0){                    // at the dock, a forward swipe enters the text
     dragging = false;                               // hand off to native scroll (don't preventDefault)
     return;
@@ -423,11 +437,20 @@ window.addEventListener('scroll', () => {
 // during our own snap -- smoothly pull back to the top so inertia can't sweep into the experience. crossing
 // it is deliberate: a fresh upward gesture from the top undocks, which runs through the touch handler
 // (dragging/touchActive set) and so is skipped here.
+let mobileFromText = false;
 window.addEventListener('scroll', () => {
   if (!mobileMQ.matches || dragging || touchActive || snapAnim) return;
   const eE = expEnd(), dE = dockEnd(), y = window.scrollY;
-  if (y <= eE || y >= dE) return;                  // only a text-fling overshoot into the dock zone
-  snapAnim = { from: y, to: dE, t0: performance.now(), dur: 280, ease: easeOutCubic };
+  if (y >= dE - 0.5){ mobileFromText = true; return; }
+  if (y <= eE){ mobileFromText = false; return; }
+  if (mobileFromText){
+    // entered the dock zone scrolling up from the text — commit into the hero instead of bouncing back
+    mobileFromText = false;
+    const target = Math.max(0, Math.min(6, Math.round(y / VH)));
+    snapAnim = { from: y, to: target * VH, t0: performance.now(), dur: 280, ease: easeInOutCubic };
+  } else {
+    snapAnim = { from: y, to: dE, t0: performance.now(), dur: 280, ease: easeOutCubic };
+  }
 });
 
 window.addEventListener('resize', () => {
@@ -450,6 +473,7 @@ function scrollToSignup(){
   gActive = false;
   dragging = false;
   touchActive = false;
+  mobileFromText = true;
   const distance = Math.abs(target - window.scrollY);
   snapAnim = {
     from: window.scrollY,
