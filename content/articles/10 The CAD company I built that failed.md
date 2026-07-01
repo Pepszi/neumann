@@ -6,7 +6,7 @@ order: 10
 
 ## The CAD company I built that failed
 
-### Thirteen years ago I co-founded a company on the idea that CAD should be code. It failed. Here's what it taught me.
+### Fifteen years ago I co-founded a company on the idea that CAD should be code. It failed. Here's what it taught me.
 
 A while ago, I co-founded another CAD company, five years before starting Shapr3D and 15 years before I founded Neumann. The founding thesis of that company was that CAD should be like coding. Unfortunately, it failed miserably after a few years.
 
