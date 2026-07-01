@@ -26,23 +26,35 @@ Arguably the most robust b-rep kernel on the market today is Parasolid. That’s
 
 However, by nature, it can’t be perfect. Here are a few examples where Parasolid, the most robust b-rep engine does funky things for (relatively basic!) topology changes.
 
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145333?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-01"></iframe></div>
+
 The behavior below is intentional: when the blend starts to overflow around the cutout, it suddenly expands to the neighbouring edge. However, at the end something strange happends: at an arbitrary number, the fillet radius cannot be increased further. Why? Because that particular case is not implemented.
 
-## MISSING VIDEO
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145517?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-02"></iframe></div>
 
 So what happens if we slightly modify this geometry, and add a bit of a material after the hole? Until the fillet reaches the bottom edge, things work as expected. But as soon as the blend overflows, Parasolid decides to just “eat” the hole and the added material, and just adds a blend. Is this intentional behavior? 100% not. Probably there is a similar, reasonable case, where this behavior makes sense, and based on the fillet algorithm’s topology change pattern matcher this belongs to that category, and Parasolid just decides to use that implementation for this case as well.
 
-## MISSING VIDEO
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145550?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-03"></iframe></div>
 
 What happens if we blend a different edge? Well - again something unexpected. To a certain point, the fillet behaves quite reasonably, but as soon as the top edge reaches the coutout’s inner edge, the fillet’s behavior drastically changes. Is it reasonable? I guess there are use cases where this is a reasonable behavior. If I wanted to model a geometry like this, would I approach it this way? 100% not, because it’s a completely unexpected behavior.
 
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145579?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-04"></iframe></div>
+
 Same geometry, but let’s see how the chamfer algorithm behaves. As soon as the chamfer reaches the inner edge of the cutout, the algorithm switches to a different implementation, and the chamfer’s extension over the edge starts to behave very differently, aggressively “eating up” the rest of the body.
+
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145608?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-05"></iframe></div>
 
 Another case, where I’d definitely not expect the blend to start removing material from the neighbouring pins.
 
-But what happens if we increase the height of the neighbouring pin? Well, Parasolid skips that one, but keeps removing material from the next ones Again: probably for a similar topology configuration this behavior makes sense, it doesn't really make sense for this particular one - yet the pattern matcher picks this algorithm for this configuration.
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145630?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-06"></iframe></div>
+
+But what happens if we increase the height of the neighbouring pin? Well, Parasolid skips that one, but keeps removing material from the next ones. Again: probably for a similar topology configuration this behavior makes sense, it doesn't really make sense for this particular one - yet the pattern matcher picks this algorithm for this configuration.
+
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145653?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-07"></iframe></div>
 
 But what happens if we willet the higher one? Well.
+
+<div style="padding:64.67% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1206145690?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="b-rep-08"></iframe></div>
 
 So far we only worked with planes and cylindrical surfaces (canonical geometry). As you can imagine, things are getting even harder with splines. In this case not just the topology changes are challanging, but creating the right surface for larger radii is also a very difficult problem. Not surprisingly b-rep can’t really handle it.
 
