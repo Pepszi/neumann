@@ -77,6 +77,7 @@ function syncViewport(){
 }
 const HEADER_H = 60;       // docked header strip height in CSS px (matches --header)
 const DOCK_UNIT = 9.5;     // px per world unit for the docked "n" (small enough the wordmark still fits mobile)
+const DOCK_WM_SCALE_MOBILE = 0.55;   // docked wordmark scale on mobile (logo size unchanged)
 const DOCK_X = 44;         // docked logo center, px from the left edge
 let curDock = 0;           // 0 = hero lockup, 1 = shrunk + docked into the sticky header
 
@@ -100,7 +101,8 @@ function placeWordmark(cx, cy, half){
   const ringExtent = 1.0 - params.leg;                      // outer ring = notch half-width beyond the body
   const logoHalfH = DOCK_UNIT * (params.hh + ringExtent);   // docked logo half-height incl. contour lines (px)
   const logoHalfW = DOCK_UNIT * (1.0 + ringExtent);         // docked logo half-width incl. contour lines (px)
-  const WM_H = 2.0 * logoHalfH;                             // wordmark height == logo height (with contour lines)
+  const wmScale = mobileMQ.matches ? DOCK_WM_SCALE_MOBILE : 1;
+  const WM_H = 2.0 * logoHalfH * wmScale;                    // wordmark height beside the docked logo (px)
   const dockW = WM_H * WORDMARK_AR;
   const dockLeft = (DOCK_X + logoHalfW + 16) + dockW * 0.5; // logo right edge + gap, then half the wordmark
   const dockTop = SAFE_TOP + (HEADER_H - WM_H) * 0.5;
