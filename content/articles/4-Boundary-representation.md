@@ -4,7 +4,7 @@ slug: boundary-representation
 order: 4
 ---
 
-## Why CAD data won't stay put
+## Boundary representation
 
 ### The democracy of geometry: the worst representation there is — except for all the others that have been tried.
 
