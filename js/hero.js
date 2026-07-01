@@ -56,6 +56,7 @@ const heroEl = document.getElementById('hero');
 const scrollHint = document.getElementById('scrollhint');
 const scrollerEl = document.getElementById('scroller');
 const hrule = document.getElementById('hrule');
+const siteNav = document.getElementById('site-nav');
 
 // stable viewport height for all scroll math (stage size, snap targets, dock boundary). it is re-baselined
 // only on a real orientation/window change -- NOT when the mobile address bar shows/hides (height-only,
@@ -215,7 +216,10 @@ function render(){
   placeCopy();
   heroEl.style.opacity = smoothstep(0.93, 1.0, curP) * (1.0 - curDock);   // hero text fades in last, out as it docks
   scrollHint.style.opacity = 1.0 - smoothstep(0.0, 0.07, curP);           // only on the opening screen; gone as you scroll
-  hrule.style.opacity = smoothstep(0.55, 1.0, curDock);
+  const navT = smoothstep(0.55, 1.0, curDock);
+  hrule.style.opacity = navT;
+  siteNav.style.opacity = navT;
+  siteNav.style.visibility = navT > 0.001 ? 'visible' : 'hidden';
 }
 
 // fade each stage's copy in around its rest point (only the nearest stage shows)
@@ -429,6 +433,35 @@ window.addEventListener('resize', () => {
   // mobile address bar showing/hiding -- a height-only change keeps VH (and the stage boundaries) fixed.
   if (innerWidth !== VW || !mobileMQ.matches){ syncViewport(); }
   render();
+});
+
+// Smooth scroll to the signup section, stopping exactly at its top edge.
+function signupScrollY(){
+  const signup = document.getElementById('signup');
+  return signup ? signup.getBoundingClientRect().top + window.scrollY : 0;
+}
+
+function scrollToSignup(){
+  const target = signupScrollY();
+  pinTop = false;
+  gInText = false;
+  gActive = false;
+  dragging = false;
+  touchActive = false;
+  const distance = Math.abs(target - window.scrollY);
+  snapAnim = {
+    from: window.scrollY,
+    to: target,
+    t0: performance.now(),
+    dur: Math.min(1400, Math.max(450, distance * 0.55)),
+    ease: easeInOutCubic,
+    onDone: () => { history.pushState(null, '', '#signup'); },
+  };
+}
+
+document.querySelector('.nav-signup-btn')?.addEventListener('click', e => {
+  e.preventDefault();
+  scrollToSignup();
 });
 
 // test hook: pin curP directly (pass null to resume scroll control)
