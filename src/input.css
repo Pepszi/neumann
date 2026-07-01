@@ -463,4 +463,8 @@
 	#articles-accordion {
 		overflow-anchor: none;
 	}
+
+	.article-item {
+		scroll-margin-top: var(--sticky-below-header);
+	}
 }

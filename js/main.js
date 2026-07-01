@@ -181,6 +181,18 @@ function expandPanel(item, duration = ACCORDION_DURATION) {
 	});
 }
 
+function getScrollAnchorItem(targetIndex) {
+	if (targetIndex <= 0) return null;
+	return getArticleItem(targetIndex - 1);
+}
+
+function scrollToPreviousArticle(targetIndex) {
+	const anchorItem = getScrollAnchorItem(targetIndex);
+	if (!anchorItem) return;
+
+	anchorItem.scrollIntoView({ block: "start", behavior: "auto" });
+}
+
 function compensateLayoutShift(targetElement, previousTop) {
 	const delta = targetElement.getBoundingClientRect().top - previousTop;
 
@@ -192,7 +204,8 @@ function compensateLayoutShift(targetElement, previousTop) {
 function animateAccordion(fromIndex, toIndex) {
 	const fromItem = getArticleItem(fromIndex);
 	const toItem = getArticleItem(toIndex);
-	const targetTop = toItem.getBoundingClientRect().top;
+	const scrollAnchor = getScrollAnchorItem(toIndex) ?? toItem;
+	const anchorTop = scrollAnchor.getBoundingClientRect().top;
 	const timeline = gsap.timeline({
 		onComplete: () => {
 			isAnimating = false;
@@ -201,13 +214,13 @@ function animateAccordion(fromIndex, toIndex) {
 
 	isAnimating = true;
 	timeline.add(collapsePanel(fromItem));
-	timeline.add(() => compensateLayoutShift(toItem, targetTop));
+	timeline.add(() => compensateLayoutShift(scrollAnchor, anchorTop));
 	timeline.add(expandPanel(toItem));
 }
 
 function setActiveArticle(
 	index,
-	{ updateHistory = true, replaceHistory = false, animate = true } = {}
+	{ updateHistory = true, replaceHistory = false, animate = true, scrollToPrevious = true } = {}
 ) {
 	if (index === activeIndex) return;
 
@@ -216,6 +229,10 @@ function setActiveArticle(
 
 	if (updateHistory) {
 		updateUrl(articles[index].slug, replaceHistory);
+	}
+
+	if (scrollToPrevious) {
+		scrollToPreviousArticle(index);
 	}
 
 	const shouldAnimate =
@@ -309,7 +326,11 @@ function handlePopState() {
 	const index = findIndexBySlug(slug);
 
 	if (index >= 0 && index !== activeIndex) {
-		setActiveArticle(index, { updateHistory: false, animate: !prefersReducedMotion() });
+		setActiveArticle(index, {
+			updateHistory: false,
+			animate: !prefersReducedMotion(),
+			scrollToPrevious: false,
+		});
 	}
 }
 
