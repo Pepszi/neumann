@@ -127,6 +127,14 @@
 							const submit = root?.querySelector?.('input[type="submit"]')
 								|| document.querySelector(".neumann-signup input[type=\"submit\"]");
 							if (submit) submit.value = "Sign me up";
+
+							// Safari requires a non-empty placeholder for :placeholder-shown to match
+							// empty fields; overlaid labels rely on that pseudo-class to stay visible.
+							root?.querySelectorAll?.(
+								".hs-input:not([type='checkbox']):not([type='radio']):not([type='submit']):not([type='hidden']):not(select)"
+							)?.forEach((input) => {
+								if (!input.placeholder) input.placeholder = " ";
+							});
 						}
 					});
 				</script>

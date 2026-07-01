@@ -141,6 +141,11 @@
 	-webkit-appearance: none;
 }
 
+.neumann-signup .hs-input::placeholder,
+.neumann-signup textarea.hs-input::placeholder {
+	color: transparent;
+}
+
 .neumann-signup .hs-input:focus {
 	outline: 0.125rem solid #000;
 	outline-offset: 0;
