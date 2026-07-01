@@ -45,26 +45,36 @@
 .neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field {
 	position: relative;
 	display: grid;
+	grid-template-rows: auto auto;
 	float: none;
 	width: 100%;
 	min-width: 0;
 	max-width: none;
 	margin: 0;
-	padding-bottom: 1.25rem;
 }
 
 .neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field .input,
 .neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field .hs-input,
-.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field input,
+.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field input:not([type="checkbox"]):not([type="radio"]),
 .neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field textarea,
 .neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field select {
-	width: 100%;
-	max-width: none;
+	width: 100% !important;
+	max-width: none !important;
 }
 
 .neumann-signup .hs-form-field > label,
 .neumann-signup .hs-form-field .input {
-	grid-area: 1 / 1;
+	grid-row: 1;
+	grid-column: 1;
+}
+
+.neumann-signup .hs-error-msgs {
+	position: static;
+	grid-row: 2;
+	grid-column: 1;
+	margin: 0.25rem 0 0;
+	padding: 0;
+	list-style: none;
 }
 
 .neumann-signup .hs-form-field > label {
@@ -104,12 +114,13 @@
 
 .neumann-signup .hs-form-field .input {
 	margin: 0;
-	width: 100%;
+	width: 100% !important;
+	overflow: visible;
 }
 
 .neumann-signup .hs-input {
 	display: block;
-	width: 100%;
+	width: 100% !important;
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0.875rem;
@@ -120,10 +131,12 @@
 	font-weight: 400;
 	font-style: normal;
 	font-size: 0.875rem;
-	line-height: 1.5;
+	line-height: normal;
 	letter-spacing: 0;
-	text-box: trim-both cap alphabetic;
+	text-box-trim: none;
+	text-box-edge: text;
 	color: #000;
+	overflow: visible;
 	appearance: none;
 	-webkit-appearance: none;
 }
@@ -150,16 +163,6 @@
 	background-position: right 0.875rem center;
 	background-size: 0.75rem auto;
 	cursor: pointer;
-}
-
-.neumann-signup .hs-error-msgs {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: 0;
-	padding: 0;
-	list-style: none;
 }
 
 .neumann-signup .hs-error-msg {
@@ -256,5 +259,9 @@
 @media (width < 40rem) {
 	.neumann-signup .hs-form fieldset.form-columns-2 {
 		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.neumann-signup .hs-form fieldset[class*="form-columns"] .hs-form-field {
+		width: 100% !important;
 	}
 }
